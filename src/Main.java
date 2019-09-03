@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class Main extends JPanel{
 
-    public static final int WIDTH=600, HEIGHT=600;
+    public static final int WIDTH=1920, HEIGHT=800;
     private Timer timer;
 
 
@@ -34,6 +34,7 @@ public class Main extends JPanel{
         Graphics2D g2 = (Graphics2D)g;
 
 
+        g2.drawString("Zach was here", 400, 400);
 
 
     }
