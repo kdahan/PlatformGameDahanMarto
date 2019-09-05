@@ -43,6 +43,7 @@ public class Sprite {
     }
 
     public void draw(Graphics2D g2){
+        g2.setColor(Color.BLACK);
         g2.fillRect(x, y, width, height);
     }
 
