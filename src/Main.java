@@ -34,9 +34,6 @@ public class Main extends JPanel{
         Graphics2D g2 = (Graphics2D)g;
 
 
-        g2.drawString("Zach was here", 400, 400);
-
-
     }
 
     public void setKeyListener(){
