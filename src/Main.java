@@ -39,6 +39,8 @@ public class Main extends JPanel{
 
         test1.draw(g2);
         test2.draw(g2);
+
+        repaint();
     }
 
     public void setKeyListener(){
