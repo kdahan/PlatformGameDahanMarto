@@ -44,8 +44,6 @@ public class Sprite {
 
     public void draw(Graphics2D g2){
         g2.fillRect(x, y, width, height);
-
-        //test
     }
 
     public void move(int newX, int newY){
