@@ -6,7 +6,7 @@ public class Player extends Sprite{
 
         super(x, y, width, height);
 
-        jumpHeight
+        jumpHeight;
 
     }
 
