@@ -9,9 +9,11 @@ import java.util.Arrays;
 
 public class Main extends JPanel{
 
-    public static final int WIDTH=1920, HEIGHT=800;
+    public static final int WIDTH=1920, HEIGHT=850;
     private Timer timer;
 
+    Sprite test1 = new Sprite(0, 0, 100, 100);
+    Sprite test2 = new Sprite(0, 0, 100, 100);
 
 
     public Main(){
@@ -24,6 +26,8 @@ public class Main extends JPanel{
 
     public void update() {
 
+        if(test1.isTouching(test2))
+            System.out.println("hehe");
 
         repaint();
     }
@@ -33,7 +37,8 @@ public class Main extends JPanel{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
-
+        test1.draw(g2);
+        test2.draw(g2);
     }
 
     public void setKeyListener(){
