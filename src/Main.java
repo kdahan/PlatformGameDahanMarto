@@ -9,10 +9,13 @@ import java.util.Arrays;
 
 public class Main extends JPanel{
 
-    public static final int WIDTH=1920, HEIGHT=850;
+    public static final int WIDTH=1920, HEIGHT=800;
     private Timer timer;
 
+
+
     public Main(){
+
 
         timer = new Timer(1000 / 60, e -> update());
         timer.start();
@@ -21,6 +24,7 @@ public class Main extends JPanel{
 
     public void update() {
 
+
         repaint();
     }
 
@@ -28,6 +32,7 @@ public class Main extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+
 
     }
 
