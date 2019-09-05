@@ -31,6 +31,17 @@ public class Sprite {
         return false;
     }
 
+    public boolean isTouchingTop(Sprite other){
+        int otherX = other.getX();
+        int otherY = other.getY();
+        int otherWidth = other.getWidth();
+        int otherHeight = other.getHeight();
+
+
+
+        return false;
+    }
+
     public void draw(Graphics2D g2){
         g2.fillRect(x, y, width, height);
     }
