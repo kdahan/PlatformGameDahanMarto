@@ -19,7 +19,7 @@ public class Sprite {
         int otherHeight = other.getHeight();
 
         for (int i = x; i < x+width; i++) {
-            for (int j = y; j < y+getWidth(); j++) {
+            for (int j = y; j < y+height; j++) {
                 for (int k = otherX; k < otherX+otherWidth; k++) {
                     for (int l = otherY; l < otherY+otherHeight; l++) {
                         if(i == k && j == l)
@@ -31,6 +31,19 @@ public class Sprite {
         return false;
     }
 
+    public void draw(Graphics2D g2){
+        g2.fillRect(x, y, width, height);
+    }
+
+    public void move(int newX, int newY){
+        x = newX;
+        y = newY;
+    }
+
+    public void moveBy(int moveX, int moveY){
+        x += moveX;
+        y += moveY;
+    }
 
     //getters and setters
     public int getX() {
