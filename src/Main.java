@@ -13,8 +13,6 @@ public class Main extends JPanel{
     private Timer timer;
 
     Player player = new Player(200, 200, 50, 50);
-    private boolean playerJumping = false;
-    private int playerJumpCounter = 10;
 
     Enemy testEnemy = new Enemy(300, 400, 50, 50, 300, 500, 5);
 
@@ -32,19 +30,11 @@ public class Main extends JPanel{
         //gravity on player
         if(player.getY() < 600 - player.getHeight())
             player.setvY(player.getvY()+1);
-        else
+        else {
             player.setvY(0);
-        player.moveBy(0, player.getvY());
-
-        //code for player jumps
-        if(playerJumping){
-            playerJumpCounter--;
-            player.jump(playerJumpCounter/2);
-            if(playerJumpCounter == 0){
-                playerJumpCounter = 10;
-                playerJumping = false;
-            }
+            player.setY(600 - player.getHeight());
         }
+        player.moveBy(0, player.getvY());
 
         //momentum on player
         player.moveBy((int)player.getvX(), 0);
@@ -63,12 +53,12 @@ public class Main extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-
+        player.draw(g2);
         //ground
         g2.setColor(Color.BLACK);
         g2.fillRect(0, 600, 1920, 400);
 
-        player.draw(g2);
+
         testEnemy.draw(g2);
 
         repaint();
@@ -83,8 +73,10 @@ public class Main extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
-                    if(!playerJumping && player.getY() >= 600 - player.getWidth()) //replace 600 with touching the ground
-                        playerJumping = true;
+                    if( player.getY() >= 600 - player.getHeight()) { //replace 600 with touching the ground
+                        player.jump(20);
+                    }
+
                 }
 
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT) { //should be replaced with vx code later

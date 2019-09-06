@@ -9,7 +9,7 @@ public class Player extends Sprite{
 
         super(x, y, width, height);
         vY = 0;
-        vX = 0
+        vX = 0;
         setColor(Color.GREEN);
 
     }
