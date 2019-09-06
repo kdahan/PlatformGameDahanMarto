@@ -12,8 +12,9 @@ public class Main extends JPanel{
     public static final int WIDTH=1920, HEIGHT=850;
     private Timer timer;
 
-    Sprite test1 = new Sprite(0, 0, 100, 100);
     Player player = new Player(200, 200, 50, 50);
+    private boolean playerJumping = false;
+    private int playerJumpCounter = 10;
 
 
     public Main(){
@@ -26,6 +27,29 @@ public class Main extends JPanel{
 
     public void update() {
 
+        //gravity on player
+        if(player.getY() < 600)
+            player.setvY(player.getvY()+1);
+        else
+            player.setvY(0);
+        player.moveBy(0, player.getvY());
+
+        //code for player jumps
+        if(playerJumping){
+            playerJumpCounter--;
+            player.jump(playerJumpCounter/2);
+            if(playerJumpCounter == 0){
+                playerJumpCounter = 10;
+                playerJumping = false;
+            }
+        }
+
+        //momentum on player
+        player.moveBy((int)player.getvX(), 0);
+        if(player.getvX() > 0)
+            player.setvX(player.getvX() - 0.1);
+        if(player.getvX() < 0)
+            player.setvX(player.getvX() + 0.1);
 
         repaint();
     }
@@ -35,7 +59,6 @@ public class Main extends JPanel{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
-        test1.draw(g2);
         player.draw(g2);
 
         repaint();
@@ -49,6 +72,22 @@ public class Main extends JPanel{
             }
             @Override
             public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    if(!playerJumping && player.getY() >= 600) //replace 600 with touching the ground
+                        playerJumping = true;
+                }
+
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT) { //should be replaced with vx code later
+                    if(player.getvX() < 5) {
+                        player.setvX((int)player.getvX() + 1.5);
+                    }
+                }
+
+                if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    if (player.getvX() > -5) {
+                        player.setvX((int)player.getvX() - 1.5);
+                    }
+                }
 
             }
             @Override
@@ -73,6 +112,7 @@ public class Main extends JPanel{
         window.add(panel);
         window.setVisible(true);
         window.setResizable(false);
+
     }
 
 }
