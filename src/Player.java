@@ -10,13 +10,8 @@ public class Player extends Sprite{
         super(x, y, width, height);
         vY = 0;
         vX = 0;
+        setColor(Color.GREEN);
 
-    }
-
-    @Override
-    public void draw(Graphics2D g2){
-        g2.setColor(Color.GREEN);
-        g2.fillRect(getX(), getY(), getWidth(), getHeight());
     }
 
     public void jump(int jumpPower){
