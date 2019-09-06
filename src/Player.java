@@ -15,7 +15,7 @@ public class Player extends Sprite{
 
     @Override
     public void draw(Graphics2D g2){
-        g2.setColor(Color.RED);
+        g2.setColor(Color.GREEN);
         g2.fillRect(getX(), getY(), getWidth(), getHeight());
     }
 

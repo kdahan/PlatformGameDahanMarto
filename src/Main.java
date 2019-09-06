@@ -28,7 +28,7 @@ public class Main extends JPanel{
     public void update() {
 
         //gravity on player
-        if(player.getY() < 600)
+        if(player.getY() < 600 - player.getHeight())
             player.setvY(player.getvY()+1);
         else
             player.setvY(0);
@@ -59,6 +59,10 @@ public class Main extends JPanel{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
+        //ground
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0, 600, 1920, 400);
+
         player.draw(g2);
 
         repaint();
@@ -73,7 +77,7 @@ public class Main extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
-                    if(!playerJumping && player.getY() >= 600) //replace 600 with touching the ground
+                    if(!playerJumping && player.getY() >= 600 - player.getWidth()) //replace 600 with touching the ground
                         playerJumping = true;
                 }
 
