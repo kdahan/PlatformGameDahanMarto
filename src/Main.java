@@ -16,6 +16,8 @@ public class Main extends JPanel{
     private boolean playerJumping = false;
     private int playerJumpCounter = 10;
 
+    Enemy testEnemy = new Enemy(300, 400, 50, 50, 300, 500, 5);
+
 
     public Main(){
 
@@ -51,6 +53,9 @@ public class Main extends JPanel{
         if(player.getvX() < 0)
             player.setvX(player.getvX() + 0.1);
 
+
+        testEnemy.move();
+
         repaint();
     }
 
@@ -64,6 +69,7 @@ public class Main extends JPanel{
         g2.fillRect(0, 600, 1920, 400);
 
         player.draw(g2);
+        testEnemy.draw(g2);
 
         repaint();
     }
