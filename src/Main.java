@@ -107,6 +107,7 @@ public class Main extends JPanel{
             public void keyReleased(KeyEvent e) {
 
                 keys[e.getKeyCode()] = false;
+                // Peanuts
 
             }
         });
