@@ -4,12 +4,16 @@ public class Sprite {
 
     private int x, y, width, height;
     private Color color = Color.BLACK;
+    private boolean[] levelsShown;
+    private int level;
 
     public Sprite(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        levelsShown  = new boolean[10];
+        level = 0;
     }
 
 
@@ -44,8 +48,10 @@ public class Sprite {
     }
 
     public void draw(Graphics2D g2){
-        g2.setColor(color);
-        g2.fillRect(x, y, width, height);
+        if(levelsShown[level]) {
+            g2.setColor(color);
+            g2.fillRect(x, y, width, height);
+        }
     }
 
     public void setColor(Color color) {
@@ -93,5 +99,27 @@ public class Sprite {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public void setLevelShown(int level, boolean isShown){
+        levelsShown[level] = isShown;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public boolean isOnScreen(){
+        if(levelsShown[level])
+            return true;
+        return false;
+    }
+
+    public boolean[] getLevelsShown() {
+        return levelsShown;
+    }
+
+    public void setLevelsShown(boolean[] levelsShown) {
+        this.levelsShown = levelsShown;
     }
 }

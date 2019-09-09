@@ -12,6 +12,10 @@ public class Player extends Sprite{
         vX = 0;
         setColor(Color.GREEN);
 
+        for (int i = 0; i < getLevelsShown().length; i++) {
+            setLevelShown(i, true);
+        }
+
     }
 
     public void jump(int jumpPower){
