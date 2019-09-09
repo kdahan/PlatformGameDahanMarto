@@ -66,6 +66,7 @@ public class Main extends JPanel{
             enemies.get(i).move();
         }
 
+        movePlayer();
 
 
         repaint();
@@ -96,24 +97,7 @@ public class Main extends JPanel{
 
                 keys[e.getKeyCode()] = true;
 
-                if(keys[KeyEvent.VK_UP]){
-                    if( player.getY() >= 600 - player.getHeight()) { //replace 600 with touching the ground
-                        player.jump(20);
-                    }
 
-                }
-
-                if(keys[KeyEvent.VK_RIGHT]) { //should be replaced with vx code later
-                    if(player.getvX() < 5) {
-                        player.setvX((int)player.getvX() + 1.5);
-                    }
-                }
-
-                if(keys[KeyEvent.VK_LEFT]) {
-                    if (player.getvX() > -5) {
-                        player.setvX((int)player.getvX() - 1.5);
-                    }
-                }
 
             }
             @Override
@@ -125,6 +109,27 @@ public class Main extends JPanel{
         });
     }
 
+
+    public void movePlayer(){
+        if(keys[KeyEvent.VK_UP]){
+            if( player.getY() >= 600 - player.getHeight()) { //replace 600 with touching the ground
+                player.jump(20);
+            }
+
+        }
+
+        if(keys[KeyEvent.VK_RIGHT]) { //should be replaced with vx code later
+            if(player.getvX() < 5) {
+                player.setvX((int)player.getvX() + 1.5);
+            }
+        }
+
+        if(keys[KeyEvent.VK_LEFT]) {
+            if (player.getvX() > -5) {
+                player.setvX((int)player.getvX() - 1.5);
+            }
+        }
+    }
     public static void main(String[] args) {
 
         JFrame window = new JFrame();
