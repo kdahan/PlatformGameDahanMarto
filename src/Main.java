@@ -14,7 +14,7 @@ public class Main extends JPanel{
 
     Player player = new Player(200, 200, 50, 50);
 
-    Enemy testEnemy = new Enemy(300, 400, 50, 50, 300, 500, 1);
+    Enemy testEnemy = new Enemy(300, 400, 50, 50, 300, 500, 5);
 
 
     public Main(){
@@ -37,14 +37,14 @@ public class Main extends JPanel{
         player.moveBy(0, player.getvY());
 
         //momentum on player
+        player.moveBy((int)player.getvX(), 0);
         if(player.getvX() > 0)
             player.setvX(player.getvX() - 0.1);
         if(player.getvX() < 0)
             player.setvX(player.getvX() + 0.1);
-        player.moveBy((int)player.getvX(), 0);
+
 
         testEnemy.move();
-
 
         repaint();
     }
