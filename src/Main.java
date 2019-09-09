@@ -9,8 +9,9 @@ import java.util.Arrays;
 
 public class Main extends JPanel{
 
-    public static final int WIDTH=1920, HEIGHT=850;
+    public static final int WIDTH=1450, HEIGHT=850;
     private Timer timer;
+    private boolean[] keys;
 
     Player player = new Player(200, 200, 50, 50);
 
@@ -19,6 +20,7 @@ public class Main extends JPanel{
 
     public Main(){
 
+        keys = new boolean[256];
 
         timer = new Timer(1000 / 60, e -> update());
         timer.start();
@@ -42,6 +44,12 @@ public class Main extends JPanel{
             player.setvX(player.getvX() - 0.1);
         if(player.getvX() < 0)
             player.setvX(player.getvX() + 0.1);
+
+        if(player.getX() <= 0)
+            player.setX(0);
+
+        if(player.getX() >= 1400)
+            player.setX(1400);
 
 
         testEnemy.move();
@@ -72,20 +80,23 @@ public class Main extends JPanel{
             }
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_UP){
+
+                keys[e.getKeyCode()] = true;
+
+                if(keys[KeyEvent.VK_UP]){
                     if( player.getY() >= 600 - player.getHeight()) { //replace 600 with touching the ground
                         player.jump(20);
                     }
 
                 }
 
-                if(e.getKeyCode() == KeyEvent.VK_RIGHT) { //should be replaced with vx code later
+                if(keys[KeyEvent.VK_RIGHT]) { //should be replaced with vx code later
                     if(player.getvX() < 5) {
                         player.setvX((int)player.getvX() + 1.5);
                     }
                 }
 
-                if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+                if(keys[KeyEvent.VK_LEFT]) {
                     if (player.getvX() > -5) {
                         player.setvX((int)player.getvX() - 1.5);
                     }
@@ -94,6 +105,8 @@ public class Main extends JPanel{
             }
             @Override
             public void keyReleased(KeyEvent e) {
+
+                keys[e.getKeyCode()] = false;
 
             }
         });
