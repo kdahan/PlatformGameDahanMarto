@@ -9,13 +9,13 @@ import java.util.Arrays;
 
 public class Main extends JPanel{
 
-    public static final int WIDTH=1450, HEIGHT=850;
+    public static final int WIDTH=1920, HEIGHT=850;
     private Timer timer;
+    private int level;
+    Player player;
+    ArrayList<Enemy> enemies;
+    ArrayList<Platform> platforms;
     private boolean[] keys;
-
-    Player player = new Player(200, 200, 50, 50);
-
-    Enemy testEnemy = new Enemy(300, 400, 50, 50, 300, 500, 5);
 
 
     public Main(){
@@ -25,6 +25,13 @@ public class Main extends JPanel{
         timer = new Timer(1000 / 60, e -> update());
         timer.start();
         setKeyListener();
+
+        level = 1;
+        player = new Player(200, 200, 50, 50);
+        platforms = new ArrayList<>();
+        platforms.add(new Platform(500, 500, 100, 100));
+        platforms.get(0).setLevelShown(1, true);
+        enemies = new ArrayList<>();
     }
 
     public void update() {
@@ -51,8 +58,15 @@ public class Main extends JPanel{
         if(player.getX() >= 1400)
             player.setX(1400);
 
+        //updates platforms & enemies
+        for (int i = 0; i < platforms.size(); i++) {
+            platforms.get(i).setLevel(level);
+        }
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).move();
+        }
 
-        testEnemy.move();
+
 
         repaint();
     }
@@ -67,7 +81,6 @@ public class Main extends JPanel{
         g2.fillRect(0, 600, 1920, 400);
 
 
-        testEnemy.draw(g2);
 
         repaint();
     }
@@ -107,7 +120,6 @@ public class Main extends JPanel{
             public void keyReleased(KeyEvent e) {
 
                 keys[e.getKeyCode()] = false;
-                // Peanuts
 
             }
         });
