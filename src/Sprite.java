@@ -37,7 +37,7 @@ public class Sprite {
             int majorityHeight = (int) (getHeight() * 0.9);
 
             Rectangle bottom = new Rectangle(getX(), getY() + majorityHeight, getWidth(), getHeight() - majorityHeight);
-            Rectangle topOfOther = new Rectangle(otherX, otherY, otherWidth, 1);  // 1 ?
+            Rectangle topOfOther = new Rectangle(otherX, otherY, otherWidth, 25);  // 1 ?
             return bottom.intersects(topOfOther);
         }
         return false;

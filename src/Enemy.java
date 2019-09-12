@@ -17,6 +17,18 @@ public class Enemy extends Sprite {
         dist = Math.abs(xPos1 - xPos2);
     }
 
+    public Enemy(int x, int y, int width, int height, int xPos1, int xPos2, int speed, int levelShown) { //xPos1 must be left of xPos2
+        super(x, y, width, height);
+        this.xPos1 = xPos1;
+        this.xPos2 = xPos2;
+        this.speed = speed;
+        isMovingLeft = true;
+        setColor(Color.RED);
+        vX = speed;
+        dist = Math.abs(xPos1 - xPos2);
+        setLevelShown(levelShown, true);
+    }
+
     public void move(){
         if(getX() < xPos1){
             isMovingLeft = false;
