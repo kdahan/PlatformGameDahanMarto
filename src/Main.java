@@ -31,15 +31,32 @@ public class Main extends JPanel{
 
         level = 1;
         player = new Player(50, 300, 50, 50);
-//        portal = new Sprite()
+        portal = new Sprite(1000, 1000, 75, 75);
+        portal.setColor(Color.YELLOW);
 
         //spawn platforms
         platforms = new ArrayList<>();
+
+        //levels
+
+        //all levels
         platforms.add(new Platform(0, 700,1920, 300));
-        platforms.add(new Platform(400, 630, 200, 350));
-        for (int i = 0; i < platforms.size(); i++) {
-            platforms.get(i).setLevelShown(1, true);
-        }
+        boolean[] levelsShown = {true, true, true, true, true, true, true, true, true, true};
+        platforms.get(0).setLevelsShown(levelsShown);
+
+        //level 1
+        portal.move(1300, 700 - portal.getHeight());
+        portal.setLevelsShown(levelsShown);
+        platforms.add(new Platform(800, 600, 50, 100, 1));
+
+
+
+
+
+
+
+
+
         playerOnTopOfPlatform = false;
 
         //spawn enemies
@@ -54,15 +71,19 @@ public class Main extends JPanel{
             player.setvY(player.getvY() + 1);
         }
         playerOnTopOfPlatform = false;
-        for (Platform plat : platforms ) {
-            if (player.isTouchingTop(plat)) {
+        for (int i = 0; i < platforms.size(); i++) {
+            if(player.isTouchingTop(platforms.get(i))) {
                 playerOnTopOfPlatform = true;
                 player.setvY(0);
-                player.setY(plat.getY() - player.getHeight());
+                player.setY(platforms.get(i).getY() - player.getHeight());
             }
         }
 
-
+        //checks if player is touching the portal
+        if(player.isTouching(portal)){
+            level++;
+            player.move(50, 300);
+        }
 
         //momentum on player
         if(player.getvX() > 0)
@@ -74,13 +95,12 @@ public class Main extends JPanel{
             for(Platform plat : platforms){
                 if (player.isTouchingSide(plat) && player.getX() < plat.getX()) {
                     player.setX(plat.getX() - player.getWidth());
-            }
+                }
                 if (player.isTouchingSide(plat) && player.getX() > plat.getX()) {
                     player.setX(plat.getX() + plat.getWidth());
                 }
             }
         }
-
         //keeps player on screen
         if(player.getX() <= 0)
             player.setX(0);
@@ -91,13 +111,10 @@ public class Main extends JPanel{
         for (int i = 0; i < platforms.size(); i++) {
             platforms.get(i).setLevel(level);
         }
-//        for (int i = 0; i < enemies.size(); i++) {
-//            enemies.get(i).setLevel(level);
-//            enemies.get(i).move();
-//        }
-
-//        checks if player is on a platform
-
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).setLevel(level);
+            enemies.get(i).move();
+        }
 
         movePlayer();
         repaint();
@@ -108,6 +125,7 @@ public class Main extends JPanel{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         player.draw(g2);
+        portal.draw(g2);
 
         //draws enemies and platforms
         for (int i = 0; i < enemies.size(); i++) {
