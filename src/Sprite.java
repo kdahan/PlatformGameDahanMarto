@@ -43,6 +43,25 @@ public class Sprite {
         return false;
     }
 
+    public boolean isTouchingSide(Sprite other){
+
+        int otherX = other.getX();
+        int otherY = other.getY();
+        int otherWidth = other.getWidth();
+
+        if(other.isOnScreen()){
+            if(isTouching(other)){
+                if(!isTouchingTop(other)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+
     public void draw(Graphics2D g2){
         if(levelsShown[level]) {
             g2.setColor(color);
