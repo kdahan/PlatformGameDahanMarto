@@ -71,8 +71,8 @@ public class Main extends JPanel{
         //keeps player on screen
         if(player.getX() <= 0)
             player.setX(0);
-        if(player.getX() >= 1400)
-            player.setX(1400);
+        if(player.getX() >= 1440 - player.getWidth())
+            player.setX(1440 - player.getWidth());
 
         //updates platforms & enemies
         for (int i = 0; i < platforms.size(); i++) {
