@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class Main extends JPanel{
 
-    public static final int WIDTH=1920, HEIGHT=850;
+    public static final int WIDTH=1440, HEIGHT=850;
     private Timer timer;
     private boolean[] keys;
     private int level;
