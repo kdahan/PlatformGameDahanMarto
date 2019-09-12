@@ -162,14 +162,14 @@ public class Main extends JPanel{
         }
 
         if(keys[KeyEvent.VK_RIGHT]) { //should be replaced with vx code later
-            if(player.getvX() < 5) {
-                player.setvX((int)player.getvX() + 2);
+            if(player.getvX() < 7) {
+                player.setvX((int)player.getvX() + 1.2);
             }
         }
 
         if(keys[KeyEvent.VK_LEFT]) {
-            if (player.getvX() > -5) {
-                player.setvX((int)player.getvX() - 2);
+            if (player.getvX() > -7) {
+                player.setvX((int)player.getvX() - 1.2);
             }
         }
     }
