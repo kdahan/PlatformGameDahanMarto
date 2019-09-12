@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class Main extends JPanel{
 
-    public static final int WIDTH=1920, HEIGHT=850;
+    public static final int WIDTH=1440, HEIGHT=850;
     private Timer timer;
     private boolean[] keys;
     private int level;
@@ -69,8 +69,8 @@ public class Main extends JPanel{
         //keeps player on screen
         if(player.getX() <= 0)
             player.setX(0);
-        if(player.getX() >= 1400)
-            player.setX(1400);
+        if(player.getX() >= 1440 - player.getWidth())
+            player.setX(1440 - player.getWidth());
 
         //updates platforms & enemies
         for (int i = 0; i < platforms.size(); i++) {
