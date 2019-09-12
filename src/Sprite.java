@@ -24,41 +24,23 @@ public class Sprite {
         int otherWidth = other.getWidth();
         int otherHeight = other.getHeight();
 
-        for (int i = x; i < x+width; i++) {
-            for (int j = y; j < y+height; j++) {
-                for (int k = otherX; k < otherX+otherWidth; k++) {
-                    for (int l = otherY; l < otherY+otherHeight; l++) {
-                        if(i == k && j == l)
-                            return true;
-                    }
-                }
-            }
-        }
-        return false;
+        Rectangle firstSprite = new Rectangle(getX(), getY(), getWidth(), getHeight());
+        Rectangle otherSprite = new Rectangle(otherX, otherY, otherWidth, otherHeight);
+        return firstSprite.intersects(otherSprite);
     }
 
     public boolean isTouchingTop(Sprite other){
-        int otherX = other.getX();
-        int otherY = other.getY();
-        int otherWidth = other.getWidth();
-        int majorityHeight = (int)(getHeight()*0.9);
+        if(other.isOnScreen()) {
+            int otherX = other.getX();
+            int otherY = other.getY();
+            int otherWidth = other.getWidth();
+            int majorityHeight = (int) (getHeight() * 0.9);
 
-        Rectangle bottom = new Rectangle(getX(), getY() + majorityHeight, getWidth(), getHeight()-majorityHeight);
-        Rectangle topOfOther = new Rectangle(otherX, otherY, otherWidth, 1);  // 1 ?
-        return bottom.intersects(topOfOther);
-
-//        for (int i = 0; i < getHeight()-majorityHeight; i++) {
-//            for (int j = 0; j < getWidth(); j++) {
-//                for (int k = 0; k < otherWidth; k++) {
-//                    if((getX() + j) == (otherX + k)){
-//                        if((getY() + majorityHeight + i) == (otherY)){
-//                            return true;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return false;
+            Rectangle bottom = new Rectangle(getX(), getY() + majorityHeight, getWidth(), getHeight() - majorityHeight);
+            Rectangle topOfOther = new Rectangle(otherX, otherY, otherWidth, 1);  // 1 ?
+            return bottom.intersects(topOfOther);
+        }
+        return false;
     }
 
     public void draw(Graphics2D g2){

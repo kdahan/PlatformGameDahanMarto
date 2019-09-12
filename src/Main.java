@@ -15,6 +15,7 @@ public class Main extends JPanel{
     private int level;
 
     Player player;
+    Sprite portal;
     ArrayList<Enemy> enemies;
     ArrayList<Platform> platforms;
     private boolean playerOnTopOfPlatform;
@@ -30,6 +31,7 @@ public class Main extends JPanel{
 
         level = 1;
         player = new Player(50, 300, 50, 50);
+//        portal = new Sprite()
 
         //spawn platforms
         platforms = new ArrayList<>();
