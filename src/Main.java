@@ -12,7 +12,7 @@ public class Main extends JPanel{
     public static final int WIDTH=1440, HEIGHT=850;
     private Timer timer;
     private boolean[] keys;
-    private int level;
+    private int level, lives;
 
     Player player;
     Sprite portal;
@@ -30,6 +30,7 @@ public class Main extends JPanel{
         setKeyListener();
 
         level = 1;
+        lives = 5;
         player = new Player(50, 300, 50, 50);
         portal = new Sprite(1000, 1000, 75, 75);
         portal.setColor(Color.YELLOW);
@@ -48,6 +49,7 @@ public class Main extends JPanel{
         portal.move(1300, 700 - portal.getHeight());
         portal.setLevelsShown(levelsShown);
         platforms.add(new Platform(800, 600, 50, 100, 1));
+        platforms.add(new Platform(500, 500, 100, 50, 1));
 
 
 
@@ -76,6 +78,9 @@ public class Main extends JPanel{
                 playerOnTopOfPlatform = true;
                 player.setvY(0);
                 player.setY(platforms.get(i).getY() - player.getHeight());
+            }
+            if(platforms.get(i).isTouchingTop(player)){
+                player.setvY(-(int)(0.5*player.getvY()) + 1);
             }
         }
 
@@ -172,13 +177,13 @@ public class Main extends JPanel{
 
         if(keys[KeyEvent.VK_RIGHT]) { //should be replaced with vx code later
             if(player.getvX() < 7) {
-                player.setvX((int)player.getvX() + 1.2);
+                player.setvX((int)player.getvX() + 1.11);
             }
         }
 
         if(keys[KeyEvent.VK_LEFT]) {
             if (player.getvX() > -7) {
-                player.setvX((int)player.getvX() - 1.2);
+                player.setvX((int)player.getvX() - 1.11);
             }
         }
     }

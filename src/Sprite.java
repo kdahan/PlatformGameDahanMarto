@@ -48,19 +48,20 @@ public class Sprite {
         int otherX = other.getX();
         int otherY = other.getY();
         int otherWidth = other.getWidth();
+        int otherHeight = other.getHeight();
+
+        Rectangle mainLeft = new Rectangle(x, y, (int)(width*0.1), height);
+        Rectangle mainRight = new Rectangle(x + (int)(width*0.9), y, (int)(width*0.1), height);
+        Rectangle otherLeft = new Rectangle(otherX, otherY, (int)(otherWidth*0.1), otherHeight);
+        Rectangle otherRight = new Rectangle(otherX + (int)(otherWidth*0.9), otherY,
+                (int)(otherWidth*0.1), otherHeight);
 
         if(other.isOnScreen()){
-            if(isTouching(other)){
-                if(!isTouchingTop(other)){
-                    return true;
-                }
-            }
+            if(mainLeft.intersects(otherRight) || mainRight.intersects(otherLeft))
+                return true;
         }
-
         return false;
-
     }
-
 
     public void draw(Graphics2D g2){
         if(levelsShown[level]) {
