@@ -15,7 +15,7 @@ public class Main extends JPanel{
     private int level, lives;
 
     Player player;
-    Sprite portal;
+    Portal portal;
     ArrayList<Enemy> enemies;
     ArrayList<Platform> platforms;
     private boolean playerOnTopOfPlatform;
@@ -32,7 +32,7 @@ public class Main extends JPanel{
         level = 1;
         lives = 5;
         player = new Player(50, 300, 50, 50);
-        portal = new Sprite(1000, 1000, 75, 75);
+        portal = new Portal(1000, 1000, 75, 75);
         portal.setColor(Color.YELLOW);
 
         //spawn platforms
