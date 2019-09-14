@@ -18,7 +18,7 @@ public class Main extends JPanel{
     Portal portal;
     ArrayList<Enemy> enemies;
     ArrayList<Platform> platforms;
-    private boolean playerOnTopOfPlatform;
+    private boolean playerOnTopOfPlatform, playerIsOnEnemy;
 
     public Main(){
 
@@ -50,22 +50,20 @@ public class Main extends JPanel{
         platforms.add(new Platform(800, 600, 50, 100, 1));
         platforms.add(new Platform(1000, 600, 100, 100, 1));
         platforms.add(new Platform(500, 500, 100, 50, 1));
+        enemies.add(new Enemy(500, 600, 75, 75, 400, 600, 1, 1));
 
         //level 2 because i got bored at 10:46pm
-        enemies.add(new Enemy(500, 450, 75, 75, 400, 600, 1, 2));
+        enemies.add(new Enemy(500, 600, 75, 75, 400, 600, 1, 2));
         //under first enemy, there's a weird glitch where player stands for a few seconds mid air before falling
         //only on level 2 though? weird
         enemies.add(new Enemy(1000, 400, 75, 75, 900, 1150, 6, 2));
-
         platforms.add(new Platform(650, 650, 100, 75, 2));
 
 
 
 
-
-
-
         playerOnTopOfPlatform = false;
+        playerIsOnEnemy = false;
 
     }
 
@@ -129,6 +127,7 @@ public class Main extends JPanel{
             if (enema.isOnScreen()){
                 if (player.isTouchingTop(enema)){
                     enema.setLevelShown(level, false);
+                    playerIsOnEnemy = true;
                 } else if (player.isTouching(enema)){
                     player.reset();
                     lives--;
@@ -215,6 +214,11 @@ public class Main extends JPanel{
             if (player.getvX() > -7) {
                 player.setvX((int)player.getvX() - 1.11);
             }
+        }
+
+        if(playerIsOnEnemy){
+            player.jump(35);
+            playerIsOnEnemy = false;
         }
     }
 

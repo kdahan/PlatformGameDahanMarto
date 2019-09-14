@@ -19,18 +19,21 @@ public class Sprite {
 
 
     public boolean isTouching(Sprite other){
-        int otherX = other.getX();
-        int otherY = other.getY();
-        int otherWidth = other.getWidth();
-        int otherHeight = other.getHeight();
+        if(other.isOnScreen() && isOnScreen()) {
+            int otherX = other.getX();
+            int otherY = other.getY();
+            int otherWidth = other.getWidth();
+            int otherHeight = other.getHeight();
 
-        Rectangle firstSprite = new Rectangle(getX(), getY(), getWidth(), getHeight());
-        Rectangle otherSprite = new Rectangle(otherX, otherY, otherWidth, otherHeight);
-        return firstSprite.intersects(otherSprite);
+            Rectangle firstSprite = new Rectangle(getX(), getY(), getWidth(), getHeight());
+            Rectangle otherSprite = new Rectangle(otherX, otherY, otherWidth, otherHeight);
+            return firstSprite.intersects(otherSprite);
+        }
+        return false;
     }
 
     public boolean isTouchingTop(Sprite other){
-        if(other.isOnScreen()) {
+        if(other.isOnScreen() && isOnScreen()) {
             int otherX = other.getX();
             int otherY = other.getY();
             int otherWidth = other.getWidth();
@@ -56,7 +59,7 @@ public class Sprite {
         Rectangle otherRight = new Rectangle(otherX + (int)(otherWidth*0.9), otherY,
                 (int)(otherWidth*0.1), otherHeight);
 
-        if(other.isOnScreen()){
+        if(other.isOnScreen() && isOnScreen()){
             if(mainLeft.intersects(otherRight) || mainRight.intersects(otherLeft))
                 return true;
         }

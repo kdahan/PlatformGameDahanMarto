@@ -20,7 +20,6 @@ public class Player extends Sprite{
 
     public void jump(int jumpPower){
         vY -= jumpPower;
-//        setY(getY()-10);
     }
 
     public int getvY() {
