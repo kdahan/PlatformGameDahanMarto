@@ -160,8 +160,19 @@ public class Main extends JPanel{
             platforms.get(i).draw(g2);
         }
 
+        g.setFont(new Font("Serif", Font.PLAIN, 20));
         g2.drawString("Level: " + level, 50, 50);
         g2.drawString("Lives: " + lives, 50, 75);
+
+        if (level == 3){
+            g2.setColor(Color.RED);
+            g2.setFont(new Font("Serif", Font.PLAIN, 75));
+            g2.drawString("Once upon a time, I was bored:", 100, 100);
+            g2.drawString("I made a platformer. And everybody loved", 100, 200);
+            g2.drawString("it. You too Jerry. And everybody loved", 100, 300);
+            g2.drawString("and favorited it and followed BluCube.", 100, 400);
+            g2.drawString("THE END.", 100, 500);
+        }
 
         repaint();
     }
