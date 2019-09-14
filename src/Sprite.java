@@ -37,10 +37,10 @@ public class Sprite {
             int otherX = other.getX();
             int otherY = other.getY();
             int otherWidth = other.getWidth();
-            int majorityHeight = (int) (getHeight() * 0.9);
+            int majorityHeight = (int) (getHeight() * 0.8);
 
             Rectangle bottom = new Rectangle(getX(), getY() + majorityHeight, getWidth(), getHeight() - majorityHeight);
-            Rectangle topOfOther = new Rectangle(otherX, otherY, otherWidth, 25);  // 1 ?
+            Rectangle topOfOther = new Rectangle(otherX, otherY, otherWidth, 30);
             return bottom.intersects(topOfOther);
         }
         return false;

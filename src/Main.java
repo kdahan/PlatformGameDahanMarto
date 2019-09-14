@@ -18,38 +18,37 @@ public class Main extends JPanel{
     Portal portal;
     ArrayList<Enemy> enemies;
     ArrayList<Platform> platforms;
-    private boolean playerOnTopOfPlatform, playerIsOnEnemy;
+    ArrayList<Spring> springs;
+    private boolean playerOnTopOfPlatform, playerIsOnEnemy, playerIsOnSpring;
 
     public Main(){
-
-        enemies = new ArrayList<>();
-
         keys = new boolean[256];
-
         timer = new Timer(1000 / 60, e -> update());
         timer.start();
         setKeyListener();
-
         level = 1;
         lives = 5;
+
+        enemies = new ArrayList<>();
+        platforms = new ArrayList<>();
+        springs = new ArrayList<>();
         player = new Player(50, 300, 50, 50);
         portal = new Portal(1000, 1000, 75, 75);
         portal.setColor(new Color(212, 178, 32));
-
-        //spawn platforms
-        platforms = new ArrayList<>();
 
         //all levels
         platforms.add(new Platform(0, 700,1920, 300)); //this is the ground, Keren. don't get rid of the ground - Keren
         boolean[] levelsShown = {true, true, true, true, true, true, true, true, true, true};
         platforms.get(0).setLevelsShown(levelsShown);
+        portal.setLevelsShown(levelsShown);
 
         //level 1
         portal.move(1300, 700 - portal.getHeight());
-        portal.setLevelsShown(levelsShown);
-        platforms.add(new Platform(800, 600, 50, 100, 1));
-        platforms.add(new Platform(1000, 600, 100, 100, 1));
-        platforms.add(new Platform(500, 500, 100, 50, 1));
+        platforms.add(new Platform(300, 600, 125, 100, 1));
+        platforms.add(new Platform(500, 450, 100, 75, 1));
+        platforms.add(new Platform(650, 300, 30, 500, 1));
+        platforms.add(new Platform(1050, 300, 30, 500, 1));
+        springs.add(new Spring(900, 600, 30, 15, 1));
         enemies.add(new Enemy(500, 600, 75, 75, 400, 600, 1, 1));
 
         //level 2 because i got bored at 10:46pm
@@ -64,6 +63,7 @@ public class Main extends JPanel{
 
         playerOnTopOfPlatform = false;
         playerIsOnEnemy = false;
+        playerIsOnSpring = false;
 
     }
 
@@ -122,6 +122,9 @@ public class Main extends JPanel{
             enemies.get(i).setLevel(level);
             enemies.get(i).move();
         }
+        for (int i = 0; i < springs.size(); i++) {
+            springs.get(i).setLevel(level);
+        }
 
         for(Enemy enema : enemies){
             if (enema.isOnScreen()){
@@ -133,6 +136,11 @@ public class Main extends JPanel{
                     lives--;
                 }
             }
+        }
+
+        for (int i = 0; i < springs.size(); i++) {
+            if(player.isTouching(springs.get(i)))
+                playerIsOnSpring = true;
         }
 
         if(lives <= 0){
@@ -157,6 +165,9 @@ public class Main extends JPanel{
         }
         for (int i = 0; i < platforms.size(); i++) {
             platforms.get(i).draw(g2);
+        }
+        for (int i = 0; i < springs.size(); i++) {
+            springs.get(i).draw(g2);
         }
 
         g.setFont(new Font("Serif", Font.PLAIN, 20));
@@ -219,6 +230,11 @@ public class Main extends JPanel{
         if(playerIsOnEnemy){
             player.jump(35);
             playerIsOnEnemy = false;
+        }
+
+        if(playerIsOnSpring){
+            player.jump(20);
+            playerIsOnSpring = false;
         }
     }
 
