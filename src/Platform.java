@@ -11,4 +11,5 @@ public class Platform extends Sprite {
         super(x, y, width, height);
         setLevelShown(levelShown, true);
     }
+
 }

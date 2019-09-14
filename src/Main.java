@@ -20,8 +20,9 @@ public class Main extends JPanel{
     ArrayList<Platform> platforms;
     private boolean playerOnTopOfPlatform;
 
-
     public Main(){
+
+        enemies = new ArrayList<>();
 
         keys = new boolean[256];
 
@@ -33,15 +34,13 @@ public class Main extends JPanel{
         lives = 5;
         player = new Player(50, 300, 50, 50);
         portal = new Portal(1000, 1000, 75, 75);
-        portal.setColor(Color.YELLOW);
+        portal.setColor(new Color(212, 178, 32));
 
         //spawn platforms
         platforms = new ArrayList<>();
 
-        //levels
-
         //all levels
-        platforms.add(new Platform(0, 700,1920, 300));
+        platforms.add(new Platform(0, 700,1920, 300)); //this is the ground, Keren. don't get rid of the ground - Keren
         boolean[] levelsShown = {true, true, true, true, true, true, true, true, true, true};
         platforms.get(0).setLevelsShown(levelsShown);
 
@@ -49,9 +48,16 @@ public class Main extends JPanel{
         portal.move(1300, 700 - portal.getHeight());
         portal.setLevelsShown(levelsShown);
         platforms.add(new Platform(800, 600, 50, 100, 1));
+        platforms.add(new Platform(1000, 600, 100, 100, 1));
         platforms.add(new Platform(500, 500, 100, 50, 1));
 
+        //level 2 because i got bored at 10:46pm
+        enemies.add(new Enemy(500, 450, 75, 75, 400, 600, 1, 2));
+        //under first enemy, there's a weird glitch where player stands for a few seconds mid air before falling
+        //only on level 2 though? weird
+        enemies.add(new Enemy(1000, 400, 75, 75, 900, 1150, 6, 2));
 
+        platforms.add(new Platform(650, 650, 100, 75, 2));
 
 
 
@@ -61,8 +67,6 @@ public class Main extends JPanel{
 
         playerOnTopOfPlatform = false;
 
-        //spawn enemies
-        enemies = new ArrayList<>();
     }
 
     public void update() {
@@ -87,7 +91,7 @@ public class Main extends JPanel{
         //checks if player is touching the portal
         if(player.isTouching(portal)){
             level++;
-            player.move(50, 300);
+            player.reset();
         }
 
         //momentum on player
@@ -121,6 +125,22 @@ public class Main extends JPanel{
             enemies.get(i).move();
         }
 
+        for(Enemy enema : enemies){
+            if (enema.isOnScreen()){
+                if (player.isTouchingTop(enema)){
+                    enema.setLevelShown(level, false);
+                } else if (player.isTouching(enema)){
+                    player.reset();
+                    lives--;
+                }
+            }
+        }
+
+        if(lives <= 0){
+            level = 1;
+            lives = 5;
+        }
+
         movePlayer();
         repaint();
     }
@@ -140,6 +160,9 @@ public class Main extends JPanel{
             platforms.get(i).draw(g2);
         }
 
+        g2.drawString("Level: " + level, 50, 50);
+        g2.drawString("Lives: " + lives, 50, 75);
+
         repaint();
     }
 
@@ -149,19 +172,15 @@ public class Main extends JPanel{
             public void keyTyped(KeyEvent e) {
 
             }
+
             @Override
             public void keyPressed(KeyEvent e) {
-
                 keys[e.getKeyCode()] = true;
-
-
-
             }
+
             @Override
             public void keyReleased(KeyEvent e) {
-
                 keys[e.getKeyCode()] = false;
-
             }
         });
     }
@@ -187,6 +206,7 @@ public class Main extends JPanel{
             }
         }
     }
+
     public static void main(String[] args) {
 
         JFrame window = new JFrame();

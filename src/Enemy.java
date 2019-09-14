@@ -5,7 +5,6 @@ public class Enemy extends Sprite {
     private int xPos1, xPos2, speed, vX, dist;
     private boolean isMovingLeft;
 
-
     public Enemy(int x, int y, int width, int height, int xPos1, int xPos2, int speed) { //xPos1 must be left of xPos2
         super(x, y, width, height);
         this.xPos1 = xPos1;
@@ -41,6 +40,5 @@ public class Enemy extends Sprite {
         else
             setX(getX() + vX);
     }
-
 
 }

@@ -38,4 +38,12 @@ public class Player extends Sprite{
     public void setvX(double vX) {
         this.vX = vX;
     }
+
+    public void reset(){
+        setvX(0);
+        setvY(0);
+        setX(50);
+        setY(300);
+    }
+
 }
