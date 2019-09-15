@@ -22,7 +22,7 @@ public class Player extends Sprite{
         }
 
         try{
-            image = ImageIO.read(new File("res/" + "player.png"));
+            image = ImageIO.read(new File("res/" + "player2.png"));
         }catch(Exception e){
             e.printStackTrace();
         }

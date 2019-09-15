@@ -39,7 +39,7 @@ public class Enemy extends Sprite {
         setLevelShown(levelShown, true);
 
         try{
-            image = ImageIO.read(new File("res/" + "enemy.png"));
+            image = ImageIO.read(new File("res/" + "enemy2.png"));
         }catch(Exception e){
             e.printStackTrace();
         }
