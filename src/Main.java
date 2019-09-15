@@ -1,18 +1,22 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main extends JPanel{
 
-    public static final int WIDTH=1440, HEIGHT=850;
+    public static final int WIDTH=1440, HEIGHT=860;
     private Timer timer;
     private boolean[] keys;
-    private int level, lives;
+    private int level, lives, points;
+    private BufferedImage bg;
 
     Player player;
     Portal portal;
@@ -23,16 +27,16 @@ public class Main extends JPanel{
 
     public Main(){
         keys = new boolean[256];
-        timer = new Timer(1000 / 60, e -> update());
-        timer.start();
+
         setKeyListener();
         level = 1;
         lives = 5;
+        points = 0;
 
         enemies = new ArrayList<>();
         platforms = new ArrayList<>();
         springs = new ArrayList<>();
-        player = new Player(50, 300, 50, 50);
+        player = new Player(30, 500, 50, 50);
         portal = new Portal(1000, 1000, 75, 75);
         portal.setColor(new Color(212, 178, 32));
 
@@ -42,7 +46,7 @@ public class Main extends JPanel{
         platforms.get(0).setLevelsShown(levelsShown);
         portal.setLevelsShown(levelsShown);
 
-        //level 1
+        //level 1 - weird slow-mo fall glitch present near enemy #1
         portal.move(1300, 700 - portal.getHeight());
         platforms.add(new Platform(300, 600, 125, 100, 1));
         platforms.add(new Platform(500, 450, 100, 75, 1));
@@ -58,12 +62,18 @@ public class Main extends JPanel{
         enemies.add(new Enemy(1000, 400, 75, 75, 900, 1150, 6, 2));
         platforms.add(new Platform(650, 650, 100, 75, 2));
 
-
-
-
         playerOnTopOfPlatform = false;
         playerIsOnEnemy = false;
         playerIsOnSpring = false;
+
+        try{
+            bg = ImageIO.read(new File("res/" + "background.png"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        timer = new Timer(1000 / 60, e -> update());
+        timer.start();
 
     }
 
@@ -90,6 +100,7 @@ public class Main extends JPanel{
         if(player.isTouching(portal)){
             level++;
             player.reset();
+            points += 100;
         }
 
         //momentum on player
@@ -118,10 +129,12 @@ public class Main extends JPanel{
         for (int i = 0; i < platforms.size(); i++) {
             platforms.get(i).setLevel(level);
         }
+
         for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).setLevel(level);
-            enemies.get(i).move();
+                enemies.get(i).setLevel(level);
+                enemies.get(i).move();
         }
+
         for (int i = 0; i < springs.size(); i++) {
             springs.get(i).setLevel(level);
         }
@@ -131,6 +144,7 @@ public class Main extends JPanel{
                 if (player.isTouchingTop(enema)){
                     enema.setLevelShown(level, false);
                     playerIsOnEnemy = true;
+                    points += 50;
                 } else if (player.isTouching(enema)){
                     player.reset();
                     lives--;
@@ -146,6 +160,7 @@ public class Main extends JPanel{
         if(lives <= 0){
             level = 1;
             lives = 5;
+            points = 0;
         }
 
         movePlayer();
@@ -156,23 +171,31 @@ public class Main extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+
+        g2.drawImage(bg, 0, 0, null);
+
         player.draw(g2);
         portal.draw(g2);
 
         //draws enemies and platforms
-        for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).draw(g2);
+        for(Enemy enema : enemies){
+            if(enema.isOnScreen())
+                enema.draw(g2);
         }
-        for (int i = 0; i < platforms.size(); i++) {
-            platforms.get(i).draw(g2);
+
+        for(Platform plat: platforms){
+            plat.draw(g2);
         }
-        for (int i = 0; i < springs.size(); i++) {
-            springs.get(i).draw(g2);
+
+        for(Spring sproing : springs){
+            sproing.draw(g2);
         }
+
 
         g.setFont(new Font("Serif", Font.PLAIN, 20));
         g2.drawString("Level: " + level, 50, 50);
         g2.drawString("Lives: " + lives, 50, 75);
+        g2.drawString("Score: " + points, 50, 100);
 
         if (level == 3){
             g2.setColor(Color.RED);

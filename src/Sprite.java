@@ -1,4 +1,6 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.File;
 
 public class Sprite {
 
@@ -114,6 +116,10 @@ public class Sprite {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public void setHeight(int height) {
