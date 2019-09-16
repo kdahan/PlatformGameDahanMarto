@@ -5,7 +5,7 @@ import java.io.File;
 
 public class Enemy extends Sprite {
 
-    private int xPos1, xPos2, speed, vX, dist;
+    private int xPos1, xPos2, speed, vX, dist, levelShown;
     private boolean isMovingLeft;
     private BufferedImage image;
 
@@ -37,6 +37,7 @@ public class Enemy extends Sprite {
         vX = speed;
         dist = Math.abs(xPos1 - xPos2);
         setLevelShown(levelShown, true);
+        this.levelShown = levelShown;
 
         try{
             image = ImageIO.read(new File("res/" + "enemy2.png"));
@@ -47,7 +48,11 @@ public class Enemy extends Sprite {
     }
 
     public void draw(Graphics2D g2){
-            g2.drawImage(image, getX(), getY(), null);
+        g2.drawImage(image, getX(), getY(), null);
+    }
+
+    public int getLevelShown() {
+        return levelShown;
     }
 
     public void move(){

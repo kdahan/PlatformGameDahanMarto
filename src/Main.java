@@ -38,7 +38,6 @@ public class Main extends JPanel{
         springs = new ArrayList<>();
         player = new Player(30, 500, 50, 50);
         portal = new Portal(1000, 1000, 75, 75);
-        portal.setColor(new Color(212, 178, 32));
 
         //all levels
         platforms.add(new Platform(0, 700,1920, 300)); //this is the ground, Keren. don't get rid of the ground - Keren
@@ -66,6 +65,8 @@ public class Main extends JPanel{
         playerIsOnEnemy = false;
         playerIsOnSpring = false;
 
+
+        //background image
         try{
             bg = ImageIO.read(new File("res/" + "background.png"));
         }catch(Exception e){
@@ -139,6 +140,7 @@ public class Main extends JPanel{
             springs.get(i).setLevel(level);
         }
 
+        //enemy kills player vs player kills enemy
         for(Enemy enema : enemies){
             if (enema.isOnScreen()){
                 if (player.isTouchingTop(enema)){
@@ -157,12 +159,16 @@ public class Main extends JPanel{
                 playerIsOnSpring = true;
         }
 
+        //if game == lost
         if(lives <= 0){
             level = 1;
             lives = 5;
             points = 0;
-        }
+            for(Enemy enema : enemies) {
+                enema.setLevelShown(enema.getLevelShown(), true);
+            }
 
+        }
         movePlayer();
         repaint();
     }
@@ -179,8 +185,9 @@ public class Main extends JPanel{
 
         //draws enemies and platforms
         for(Enemy enema : enemies){
-            if(enema.isOnScreen())
-                enema.draw(g2);
+            if(enema.isOnScreen()) {
+                    enema.draw(g2);
+            }
         }
 
         for(Platform plat: platforms){
@@ -190,7 +197,6 @@ public class Main extends JPanel{
         for(Spring sproing : springs){
             sproing.draw(g2);
         }
-
 
         g.setFont(new Font("Serif", Font.PLAIN, 20));
         g2.drawString("Level: " + level, 50, 50);
@@ -235,7 +241,6 @@ public class Main extends JPanel{
             if(playerOnTopOfPlatform) {
                 player.jump(20);
             }
-
         }
 
         if(keys[KeyEvent.VK_RIGHT]) { //should be replaced with vx code later
