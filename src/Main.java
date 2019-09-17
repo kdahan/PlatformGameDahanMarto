@@ -40,7 +40,7 @@ public class Main extends JPanel{
 
         //all levels
         platforms.add(new Platform(0, 700,1920, 300)); //this is the ground, Keren. don't get rid of the ground - Keren
-        boolean[] levelsShown = {true, true, true, true, true, true, true, true, true, true};
+        boolean[] levelsShown = {true, true, true, true, true, true, true, true, true, true, true, true, true};
         platforms.get(0).setLevelsShown(levelsShown);
         portal.setLevelsShown(levelsShown);
 
