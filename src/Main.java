@@ -16,6 +16,7 @@ public class Main extends JPanel{
     private Timer timer;
     private boolean[] keys;
     private int level, lives, points, framesSinceJump;
+    private BufferedImage regBG, waterBG;
 
     Player player;
     Portal portal;
@@ -55,8 +56,6 @@ public class Main extends JPanel{
 
         //level 2 because i got bored at 10:46pm
         enemies.add(new Enemy(500, 600, 75, 75, 400, 600, 1, 2));
-        //under first enemy, there's a weird glitch where player stands for a few seconds mid air before falling
-        //only on level 2 though? weird
         enemies.add(new Enemy(1000, 400, 75, 75, 900, 1150, 6, 2));
         platforms.add(new Platform(650, 650, 100, 75, 2));
 
@@ -64,6 +63,13 @@ public class Main extends JPanel{
         playerIsOnEnemy = false;
         playerIsOnSpring = false;
         isWaterLevel = true;
+
+        try{
+            regBG = ImageIO.read(new File("res/" + "background.png"));
+            waterBG = ImageIO.read(new File("res/" + "waterbackground.png"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
         timer = new Timer(1000 / 60, e -> update());
         timer.start();
@@ -161,6 +167,18 @@ public class Main extends JPanel{
                 playerIsOnSpring = true;
         }
 
+        if(keys[KeyEvent.VK_UP]){
+            for(Platform plat : platforms){
+                if(player.isTouchingSide(plat) && player.getX() + player.getWidth() <= plat.getX()){
+                    player.setvX(player.getvX() * -1);
+                    player.setvY(0);
+                } else if (player.isTouchingSide(plat) && player.getX() > plat.getX() + plat.getWidth()){
+                    player.setvX(player.getvX());
+                    player.setvY(0);
+                }
+            }
+        }
+
         //if game == lost
         if(lives <= 0){
             level = 1;
@@ -179,6 +197,11 @@ public class Main extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+
+        if(isWaterLevel)
+            g2.drawImage(waterBG, 0, 0, null);
+        else
+            g2.drawImage(regBG, 0, 0, null);
 
         player.draw(g2);
         portal.draw(g2);
@@ -204,11 +227,12 @@ public class Main extends JPanel{
         g2.drawString("Score: " + points, 50, 100);
 
         if(isWaterLevel){
-            g2.setColor(new Color(22, 209, 255, 75));
+            g2.setColor(new Color(60, 230, 255, 75));
             g2.fillRect(0, 0, WIDTH, HEIGHT);
         }
 
         repaint();
+
     }
 
     public void setKeyListener(){
