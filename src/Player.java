@@ -5,7 +5,7 @@ import java.io.File;
 
 public class Player extends Sprite{
 
-    private int vY;
+    private double vY;
     private double vX;
     private BufferedImage image;
 
@@ -37,11 +37,11 @@ public class Player extends Sprite{
         g2.drawImage(image, getX(), getY(), null);
     }
 
-    public int getvY() {
+    public double getvY() {
         return vY;
     }
 
-    public void setvY(int vY) {
+    public void setvY(double vY) {
         this.vY = vY;
     }
 
