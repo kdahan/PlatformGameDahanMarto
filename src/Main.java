@@ -16,7 +16,6 @@ public class Main extends JPanel{
     private Timer timer;
     private boolean[] keys;
     private int level, lives, points;
-    private BufferedImage bg;
 
     Player player;
     Portal portal;
@@ -64,14 +63,6 @@ public class Main extends JPanel{
         playerOnTopOfPlatform = false;
         playerIsOnEnemy = false;
         playerIsOnSpring = false;
-
-
-        //background image
-        try{
-            bg = ImageIO.read(new File("res/" + "background.png"));
-        }catch(Exception e){
-            e.printStackTrace();
-        }
 
         timer = new Timer(1000 / 60, e -> update());
         timer.start();
@@ -178,8 +169,6 @@ public class Main extends JPanel{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
-        g2.drawImage(bg, 0, 0, null);
-
         player.draw(g2);
         portal.draw(g2);
 
@@ -202,16 +191,6 @@ public class Main extends JPanel{
         g2.drawString("Level: " + level, 50, 50);
         g2.drawString("Lives: " + lives, 50, 75);
         g2.drawString("Score: " + points, 50, 100);
-
-        if (level == 3){
-            g2.setColor(Color.RED);
-            g2.setFont(new Font("Serif", Font.PLAIN, 75));
-            g2.drawString("Once upon a time, I was bored:", 100, 100);
-            g2.drawString("I made a platformer. And everybody loved", 100, 200);
-            g2.drawString("it. You too Jerry. And everybody loved", 100, 300);
-            g2.drawString("and favorited it and followed BluCube.", 100, 400);
-            g2.drawString("THE END.", 100, 500);
-        }
 
         repaint();
     }
