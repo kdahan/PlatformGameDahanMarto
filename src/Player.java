@@ -57,7 +57,7 @@ public class Player extends Sprite{
         setvX(0);
         setvY(0);
         setX(50);
-        setY(300);
+        setY(625);
     }
 
 }

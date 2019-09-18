@@ -36,7 +36,7 @@ public class Main extends JPanel{
         enemies = new ArrayList<>();
         platforms = new ArrayList<>();
         springs = new ArrayList<>();
-        player = new Player(30, 500, 50, 50);
+        player = new Player(30, 625, 50, 50);
         portal = new Portal(1000, 1000, 75, 75);
 
         //all levels
@@ -51,7 +51,7 @@ public class Main extends JPanel{
         platforms.add(new Platform(500, 450, 100, 75, 1));
         platforms.add(new Platform(650, 300, 30, 500, 1));
         platforms.add(new Platform(1050, 300, 30, 500, 1));
-        springs.add(new Spring(900, 600, 30, 15, 1));
+        //springs.add(new Spring(900, 600, 30, 15, 1));
         enemies.add(new Enemy(500, 600, 75, 75, 400, 600, 1, 1));
 
         //level 2 because i got bored at 10:46pm
@@ -59,10 +59,31 @@ public class Main extends JPanel{
         enemies.add(new Enemy(1000, 400, 75, 75, 900, 1150, 6, 2));
         platforms.add(new Platform(650, 650, 100, 75, 2));
 
+        //level 3
+        enemies.add(new Enemy(1000, 385, 75, 75, 250, 1400, 1, 3));
+        enemies.add(new Enemy(500, 515, 75, 75, 250, 1400, 3, 3));
+        enemies.add(new Enemy(250, 630, 75, 75, 250, 1400, 2, 3));
+        platforms.add(new Platform(302, 300, 40, 500, 3));
+        platforms.add(new Platform(502, 300, 40, 500, 3));
+        platforms.add(new Platform(702, 300, 40, 500, 3));
+        platforms.add(new Platform(902, 300, 40, 500, 3));
+        platforms.add(new Platform(1102, 300, 40, 500, 3));
+        platforms.add(new Platform(400, 450, 50, 100, 3));
+        platforms.add(new Platform(600, 450, 50, 100, 3));
+        platforms.add(new Platform(800, 450, 50, 100, 3));
+        platforms.add(new Platform(1000, 450, 50, 100, 3));
+
         playerOnTopOfPlatform = false;
         playerIsOnEnemy = false;
         playerIsOnSpring = false;
-        isWaterLevel = true;
+//        isWaterLevel = false;
+
+        //level 4
+        platforms.add(new Platform(140, 115, 1300, 50, 4));
+        platforms.add(new Platform(0, 245, 1300, 50, 4));
+        platforms.add(new Platform(140, 375, 1300, 50, 4));
+        platforms.add(new Platform(0, 505, 1300, 50, 4));
+        platforms.add(new Platform(140, 635, 1300, 50, 4));
 
         try{
             regBG = ImageIO.read(new File("res/" + "background.png"));
@@ -140,8 +161,8 @@ public class Main extends JPanel{
         }
 
         for (int i = 0; i < enemies.size(); i++) {
-                enemies.get(i).setLevel(level);
-                enemies.get(i).move();
+            enemies.get(i).setLevel(level);
+            enemies.get(i).move();
         }
 
         for (int i = 0; i < springs.size(); i++) {
@@ -165,18 +186,6 @@ public class Main extends JPanel{
         for (int i = 0; i < springs.size(); i++) {
             if(player.isTouching(springs.get(i)))
                 playerIsOnSpring = true;
-        }
-
-        if(keys[KeyEvent.VK_UP]){
-            for(Platform plat : platforms){
-                if(player.isTouchingSide(plat) && player.getX() + player.getWidth() <= plat.getX()){
-                    player.setvX(player.getvX() * -1);
-                    player.setvY(0);
-                } else if (player.isTouchingSide(plat) && player.getX() > plat.getX() + plat.getWidth()){
-                    player.setvX(player.getvX());
-                    player.setvY(0);
-                }
-            }
         }
 
         //if game == lost
@@ -207,11 +216,6 @@ public class Main extends JPanel{
         portal.draw(g2);
 
         //draws enemies and platforms
-        for(Enemy enema : enemies){
-            if(enema.isOnScreen()) {
-                    enema.draw(g2);
-            }
-        }
 
         for(Platform plat: platforms){
             plat.draw(g2);
@@ -221,10 +225,25 @@ public class Main extends JPanel{
             sproing.draw(g2);
         }
 
+        for(Enemy enema : enemies){
+            if(enema.isOnScreen()) {
+                enema.draw(g2);
+            }
+        }
+
         g.setFont(new Font("Serif", Font.PLAIN, 20));
         g2.drawString("Level: " + level, 50, 50);
         g2.drawString("Lives: " + lives, 50, 75);
         g2.drawString("Score: " + points, 50, 100);
+
+        if(level == 4){
+            isWaterLevel = true;
+            portal.setX(1350);
+            portal.setY(50);
+        } else {
+            portal.setX(1000);
+            portal.setY(1000);
+        }
 
         if(isWaterLevel){
             g2.setColor(new Color(60, 230, 255, 75));
@@ -260,13 +279,36 @@ public class Main extends JPanel{
             if((playerOnTopOfPlatform || isWaterLevel) && framesSinceJump > 10) {
                 if(!isWaterLevel)
                     player.jump(20);
+                else if(player.getvY() < -20) {
+                    player.jump(0);
+                }
                 else
-                    if(player.getvY() < -20) {
-                        player.jump(0);
-                    }
-                    else
-                        player.jump(50);
+                    player.jump(50);
                 framesSinceJump = 0;
+            }
+
+            // wall jumps :D
+            for(Platform plat : platforms){
+                if(player.getX() == plat.getX() - player.getWidth()){
+                    if(framesSinceJump % 2 == 0) {
+                        if(!playerOnTopOfPlatform || playerOnTopOfPlatform) {
+                            player.jump(3);
+                            player.setvX(-10);
+                            if(player.getvY() < -10)
+                                player.jump(3);
+                        }
+                    }
+                }
+                else if (player.getX() == plat.getX() + plat.getWidth()){
+                    if(framesSinceJump % 2 == 0){
+                        if(playerOnTopOfPlatform || !playerOnTopOfPlatform) {
+                            player.jump(3);
+                            player.setvX(10);
+                            if(player.getvY() <- 10)
+                                player.jump(3);
+                        }
+                    }
+                }
             }
         }
 
