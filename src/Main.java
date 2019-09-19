@@ -55,6 +55,7 @@ public class Main extends JPanel{
         platforms.add(new Platform(500, 450, 100, 75, 1));
         platforms.add(new Platform(650, 300, 30, 500, 1));
         platforms.add(new Platform(950, 300, 30, 500, 1));
+        //yes
         //springs.add(new Spring(900, 600, 30, 15, 1));
         enemies.add(new Enemy(500, 600, 75, 75, 400, 600, 1, 1));
         platforms.add(new Platform(1050, 480, 30, 500, 1));
