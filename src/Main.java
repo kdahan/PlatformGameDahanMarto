@@ -58,8 +58,6 @@ public class Main extends JPanel{
         //yes
         //springs.add(new Spring(900, 600, 30, 15, 1));
         enemies.add(new Enemy(500, 600, 75, 75, 400, 600, 1, 1));
-        platforms.add(new Platform(1050, 480, 30, 500, 1));
-        enemies.add(new Enemy(700, 625, 75, 75, 680, 975, 3, 1));
 
         //level 2 because i got bored at 10:46pm
         enemies.add(new Enemy(500, 600, 75, 75, 400, 600, 1, 2));
@@ -340,7 +338,7 @@ public class Main extends JPanel{
                     player.setvX((int) player.getvX() + 1.11);
                 }
             } else {
-                if (player.getvX() < 2) {
+                if (player.getvX() < 0) {
                     player.setvX((int) player.getvX() + 1.11);
                 }
             }
