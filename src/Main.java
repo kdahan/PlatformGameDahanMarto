@@ -54,7 +54,7 @@ public class Main extends JPanel{
         platforms.add(new Platform(300, 600, 125, 100, 1));
         platforms.add(new Platform(500, 450, 100, 75, 1));
         platforms.add(new Platform(650, 300, 30, 500, 1));
-        platforms.add(new Platform(1050, 300, 30, 500, 1));
+        platforms.add(new Platform(950, 300, 30, 500, 1));
         //springs.add(new Spring(900, 600, 30, 15, 1));
         enemies.add(new Enemy(500, 600, 75, 75, 400, 600, 1, 1));
         platforms.add(new Platform(1050, 480, 30, 500, 1));
@@ -91,6 +91,16 @@ public class Main extends JPanel{
         platforms.add(new Platform(140, 375, 1300, 50, 4));
         platforms.add(new Platform(0, 505, 1300, 50, 4));
         platforms.add(new Platform(140, 635, 1300, 50, 4));
+
+        //level 5
+        platforms.add(new Platform(140, 115, 1300, 50, 5));
+        platforms.add(new Platform(0, 245, 1300, 50, 5));
+        platforms.add(new Platform(140, 375, 1300, 50, 5));
+        platforms.add(new Platform(0, 505, 1300, 50, 5));
+        platforms.add(new Platform(140, 635, 1300, 50, 5));
+        enemies.add(new Enemy(70, 115, 75, 75, 30, 100, 5));
+        enemies.add(new Enemy(1400, 245, 75, 75, 215, 275, 5));
+
 
         try{
             regBG = ImageIO.read(new File("res/" + "background.png"));
@@ -266,13 +276,18 @@ public class Main extends JPanel{
         g2.drawString("Lives: " + lives, 50, 75);
         g2.drawString("Score: " + points, 50, 100);
 
-        if(level == 4){
+        if(level == 4){ // level == 4 || any other levels
             isWaterLevel = true;
             portal.setX(1350);
             portal.setY(50);
+        } else if (level == 5) {
+            isWaterLevel = false;
+            portal.setX(1350);
+            portal.setY(115 - portal.getHeight());
         } else {
-            portal.setX(1000);
-            portal.setY(1000);
+            isWaterLevel = false;
+            portal.setX(1350);
+            portal.setY(700 - portal.getHeight());
         }
 
         if(isWaterLevel){
@@ -315,30 +330,6 @@ public class Main extends JPanel{
                 else
                     player.jump(50);
                 framesSinceJump = 0;
-            }
-
-            // wall jumps :D
-            for(Platform plat : platforms){
-                if(player.getX() == plat.getX() - player.getWidth()){
-                    if(framesSinceJump % 2 == 0) {
-                        if(!playerOnTopOfPlatform || playerOnTopOfPlatform) {
-                            player.jump(3);
-                            player.setvX(-10);
-                            if(player.getvY() < -10)
-                                player.jump(3);
-                        }
-                    }
-                }
-                else if (player.getX() == plat.getX() + plat.getWidth()){
-                    if(framesSinceJump % 2 == 0){
-                        if(playerOnTopOfPlatform || !playerOnTopOfPlatform) {
-                            player.jump(3);
-                            player.setvX(10);
-                            if(player.getvY() <- 10)
-                                player.jump(3);
-                        }
-                    }
-                }
             }
         }
 
