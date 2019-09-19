@@ -347,7 +347,7 @@ public class Main extends JPanel{
 
         if(keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) { //should be replaced with vx code later
             if(!isWaterLevel) {
-                if (player.getvX() < 7) {
+                if (player.getvX() < 5) {
                     player.setvX((int) player.getvX() + 3);
                 }
             } else {
@@ -359,7 +359,7 @@ public class Main extends JPanel{
 
         if(keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) {
             if(!isWaterLevel) {
-                if (player.getvX() > -7) {
+                if (player.getvX() > -5) {
                     player.setvX((int) player.getvX() - 3);
                 }
             } else {
