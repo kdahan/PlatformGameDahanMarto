@@ -136,7 +136,8 @@ public class Main extends JPanel{
                 player.setY(platforms.get(i).getY() - player.getHeight());
             }
             if(platforms.get(i).isTouchingTop(player)){
-                player.setvY(-(int)(0.5*player.getvY()) + 1);
+                player.setvY(0);
+                player.setY(platforms.get(i).getY() + platforms.get(i).getHeight());
             }
         }
         framesSinceJump++;
@@ -151,9 +152,9 @@ public class Main extends JPanel{
 
         //momentum on player
         if(player.getvX() > 0)
-            player.setvX(player.getvX() - 0.1);
+            player.setvX(player.getvX() - 0.5);
         if(player.getvX() < 0)
-            player.setvX(player.getvX() + 0.1);
+            player.setvX(player.getvX() + 0.5);
         if((int)player.getvX() != 0) {
             player.moveBy((int) player.getvX(), 0);
             for(Platform plat : platforms){
@@ -347,11 +348,11 @@ public class Main extends JPanel{
         if(keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) { //should be replaced with vx code later
             if(!isWaterLevel) {
                 if (player.getvX() < 7) {
-                    player.setvX((int) player.getvX() + 1.11);
+                    player.setvX((int) player.getvX() + 3);
                 }
             } else {
                 if (player.getvX() < 0) {
-                    player.setvX((int) player.getvX() + 1.11);
+                    player.setvX((int) player.getvX() + 3);
                 }
             }
         }
@@ -359,11 +360,11 @@ public class Main extends JPanel{
         if(keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) {
             if(!isWaterLevel) {
                 if (player.getvX() > -7) {
-                    player.setvX((int) player.getvX() - 1.11);
+                    player.setvX((int) player.getvX() - 3);
                 }
             } else {
                 if (player.getvX() > -2) {
-                    player.setvX((int) player.getvX() - 1.11);
+                    player.setvX((int) player.getvX() - 3);
                 }
             }
         }
