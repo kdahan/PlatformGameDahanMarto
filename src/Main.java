@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -101,6 +102,10 @@ public class Main extends JPanel{
         enemies.add(new Enemy(1400, 245, 75, 75, 215, 275, 5));
 
 
+        for (int i = 0; i < lava.size(); i++) {
+            lava.get(i).setColor(Color.RED);
+        }
+
         try{
             regBG = ImageIO.read(new File("res/" + "background.png"));
             waterBG = ImageIO.read(new File("res/" + "waterbackground.png"));
@@ -186,6 +191,13 @@ public class Main extends JPanel{
 
         for (int i = 0; i < springs.size(); i++) {
             springs.get(i).setLevel(level);
+        }
+
+        for (int i = 0; i < lava.size(); i++) {
+            if(player.isTouching(lava.get(i))) {
+                player.reset();
+                lives--;
+            }
         }
 
         //enemy kills player vs player kills enemy
@@ -319,7 +331,7 @@ public class Main extends JPanel{
 
 
     public void movePlayer(){
-        if(keys[KeyEvent.VK_UP]){
+        if(keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]){
             if((playerOnTopOfPlatform || isWaterLevel) && framesSinceJump > 10) {
                 if(!isWaterLevel)
                     player.jump(20);
@@ -332,7 +344,7 @@ public class Main extends JPanel{
             }
         }
 
-        if(keys[KeyEvent.VK_RIGHT]) { //should be replaced with vx code later
+        if(keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) { //should be replaced with vx code later
             if(!isWaterLevel) {
                 if (player.getvX() < 7) {
                     player.setvX((int) player.getvX() + 1.11);
@@ -344,7 +356,7 @@ public class Main extends JPanel{
             }
         }
 
-        if(keys[KeyEvent.VK_LEFT]) {
+        if(keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) {
             if(!isWaterLevel) {
                 if (player.getvX() > -7) {
                     player.setvX((int) player.getvX() - 1.11);
