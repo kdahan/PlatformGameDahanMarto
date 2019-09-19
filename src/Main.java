@@ -15,7 +15,7 @@ public class Main extends JPanel{
     public static final int WIDTH=1440, HEIGHT=860;
     private Timer timer;
     private boolean[] keys;
-    private int level, lives, points, framesSinceJump;
+    private int level, lives, points, framesSinceJump, framesSinceSpring;
     private BufferedImage regBG, waterBG;
 
     Player player;
@@ -23,6 +23,7 @@ public class Main extends JPanel{
     ArrayList<Enemy> enemies;
     ArrayList<Platform> platforms;
     ArrayList<Spring> springs;
+    ArrayList<Sprite> lava;
     private boolean playerOnTopOfPlatform, playerIsOnEnemy, playerIsOnSpring, isWaterLevel;
 
     public Main(){
@@ -32,10 +33,13 @@ public class Main extends JPanel{
         level = 1;
         lives = 5;
         points = 0;
+        framesSinceJump = 0;
+        framesSinceSpring = 0;
 
         enemies = new ArrayList<>();
         platforms = new ArrayList<>();
         springs = new ArrayList<>();
+        lava = new ArrayList<>();
         player = new Player(30, 625, 50, 50);
         portal = new Portal(1000, 1000, 75, 75);
 
@@ -53,6 +57,8 @@ public class Main extends JPanel{
         platforms.add(new Platform(1050, 300, 30, 500, 1));
         //springs.add(new Spring(900, 600, 30, 15, 1));
         enemies.add(new Enemy(500, 600, 75, 75, 400, 600, 1, 1));
+        platforms.add(new Platform(1050, 480, 30, 500, 1));
+        enemies.add(new Enemy(700, 625, 75, 75, 680, 975, 3, 1));
 
         //level 2 because i got bored at 10:46pm
         enemies.add(new Enemy(500, 600, 75, 75, 400, 600, 1, 2));
@@ -76,6 +82,7 @@ public class Main extends JPanel{
         playerOnTopOfPlatform = false;
         playerIsOnEnemy = false;
         playerIsOnSpring = false;
+        isWaterLevel = false;
 //        isWaterLevel = false;
 
         //level 4
@@ -119,6 +126,7 @@ public class Main extends JPanel{
             }
         }
         framesSinceJump++;
+        framesSinceSpring++;
 
         //checks if player is touching the portal
         if(player.isTouching(portal)){
@@ -137,9 +145,11 @@ public class Main extends JPanel{
             for(Platform plat : platforms){
                 if (player.isTouchingSide(plat) && player.getX() < plat.getX()) {
                     player.setX(plat.getX() - player.getWidth());
+                    player.setvX(0);
                 }
                 if (player.isTouchingSide(plat) && player.getX() > plat.getX()) {
                     player.setX(plat.getX() + plat.getWidth());
+                    player.setvX(0);
                 }
             }
         }
@@ -184,8 +194,22 @@ public class Main extends JPanel{
         }
 
         for (int i = 0; i < springs.size(); i++) {
-            if(player.isTouching(springs.get(i)))
+            if(player.isTouchingTop(springs.get(i)) && framesSinceSpring > 100) {
                 playerIsOnSpring = true;
+                framesSinceSpring = 0;
+            }
+        }
+
+        if(keys[KeyEvent.VK_UP]){
+            for(Platform plat : platforms){
+                if(player.isTouchingSide(plat) && player.getX() + player.getWidth() <= plat.getX()){
+                    player.setvX(player.getvX() * -1);
+                    player.setvY(0);
+                } else if (player.isTouchingSide(plat) && player.getX() > plat.getX() + plat.getWidth()){
+                    player.setvX(player.getvX());
+                    player.setvY(0);
+                }
+            }
         }
 
         //if game == lost
@@ -216,13 +240,19 @@ public class Main extends JPanel{
         portal.draw(g2);
 
         //draws enemies and platforms
+        for(Enemy enema : enemies){
+            if(enema.isOnScreen()) {
+                    enema.draw(g2);
+            }
+        }
 
         for(Platform plat: platforms){
             plat.draw(g2);
         }
 
         for(Spring sproing : springs){
-            sproing.draw(g2);
+            if(sproing.isOnScreen())
+                sproing.draw(g2);
         }
 
         for(Enemy enema : enemies){
@@ -337,12 +367,13 @@ public class Main extends JPanel{
         }
 
         if(playerIsOnEnemy){
-            player.jump(35);
+            player.setvY(0);
+            player.jump(20);
             playerIsOnEnemy = false;
         }
 
         if(playerIsOnSpring){
-            player.jump(20);
+            player.jump(40);
             playerIsOnSpring = false;
         }
     }

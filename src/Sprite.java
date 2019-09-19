@@ -19,6 +19,17 @@ public class Sprite {
         color = Color.BLACK;
     }
 
+    public Sprite(int x, int y, int width, int height, int levelShown) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        levelsShown  = new boolean[10];
+        level = 0;
+        color = Color.BLACK;
+        levelsShown[levelShown] = true;
+    }
+
 
     public boolean isTouching(Sprite other){
         if(other.isOnScreen() && isOnScreen()) {
