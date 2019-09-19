@@ -69,6 +69,7 @@ public class Main extends JPanel{
         enemies.add(new Enemy(1000, 385, 75, 75, 250, 1400, 1, 3));
         enemies.add(new Enemy(500, 515, 75, 75, 250, 1400, 3, 3));
         enemies.add(new Enemy(250, 630, 75, 75, 250, 1400, 2, 3));
+        platforms.add(new Platform(151, 520, 75, 75, 3));
         platforms.add(new Platform(302, 300, 40, 500, 3));
         platforms.add(new Platform(502, 300, 40, 500, 3));
         platforms.add(new Platform(702, 300, 40, 500, 3));
@@ -83,7 +84,6 @@ public class Main extends JPanel{
         playerIsOnEnemy = false;
         playerIsOnSpring = false;
         isWaterLevel = false;
-//        isWaterLevel = false;
 
         //level 4
         platforms.add(new Platform(140, 115, 1300, 50, 4));
