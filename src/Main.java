@@ -16,7 +16,7 @@ public class Main extends JPanel{
     public static final int WIDTH=1440, HEIGHT=860;
     private Timer timer;
     private boolean[] keys;
-    private int level, lives, points, framesSinceJump, framesSinceSpring;
+    private int level, lives, points, framesSinceJump, framesSinceSpring, framesSinceReset;
     private BufferedImage regBG, waterBG;
 
     Player player;
@@ -36,6 +36,7 @@ public class Main extends JPanel{
         points = 0;
         framesSinceJump = 0;
         framesSinceSpring = 0;
+        framesSinceReset = 0;
 
         enemies = new ArrayList<>();
         platforms = new ArrayList<>();
@@ -55,7 +56,9 @@ public class Main extends JPanel{
         platforms.add(new Platform(300, 600, 125, 100, 1));
         platforms.add(new Platform(500, 450, 100, 75, 1));
         platforms.add(new Platform(650, 300, 30, 500, 1));
-        platforms.add(new Platform(950, 300, 30, 500, 1));
+        platforms.add(new Platform(1250, 300, 30, 500, 1));
+        platforms.add(new Platform(925, 300, 100, 35, 1));
+        lava.add(new Sprite(680, 665, 570, 35, 1));
         //yes
         //springs.add(new Spring(900, 600, 30, 15, 1));
         enemies.add(new Enemy(500, 600, 75, 75, 400, 600, 1, 1));
@@ -142,6 +145,7 @@ public class Main extends JPanel{
         }
         framesSinceJump++;
         framesSinceSpring++;
+        framesSinceReset++;
 
         //checks if player is touching the portal
         if(player.isTouching(portal)){
@@ -195,6 +199,7 @@ public class Main extends JPanel{
         }
 
         for (int i = 0; i < lava.size(); i++) {
+            lava.get(i).setLevel(level);
             if(player.isTouching(lava.get(i))) {
                 player.reset();
                 lives--;
@@ -262,12 +267,6 @@ public class Main extends JPanel{
         portal.draw(g2);
 
         //draws enemies and platforms
-        for(Enemy enema : enemies){
-            if(enema.isOnScreen()) {
-                    enema.draw(g2);
-            }
-        }
-
         for(Platform plat: platforms){
             plat.draw(g2);
         }
@@ -283,6 +282,11 @@ public class Main extends JPanel{
             }
         }
 
+        for(Sprite lavatory : lava) {
+            lavatory.draw(g2);
+        }
+
+        g2.setColor(new Color(123, 166 , 191));
         g.setFont(new Font("Serif", Font.PLAIN, 20));
         g2.drawString("Level: " + level, 50, 50);
         g2.drawString("Lives: " + lives, 50, 75);
@@ -366,6 +370,13 @@ public class Main extends JPanel{
                 if (player.getvX() > -2) {
                     player.setvX((int) player.getvX() - 3);
                 }
+            }
+        }
+
+        if(keys[KeyEvent.VK_R]){
+            if(framesSinceReset % 15 == 0) {
+                player.reset();
+                lives--;
             }
         }
 
