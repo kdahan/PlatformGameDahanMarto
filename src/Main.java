@@ -31,7 +31,7 @@ public class Main extends JPanel{
         keys = new boolean[256];
 
         setKeyListener();
-        level = 1;
+        level = 8;
         lives = 5;
         points = 0;
         framesSinceJump = 0;
@@ -47,7 +47,10 @@ public class Main extends JPanel{
 
         //all levels
         platforms.add(new Platform(0, 700,1920, 300)); //this is the ground, Keren. don't get rid of the ground - Keren
-        boolean[] levelsShown = {true, true, true, true, true, true, true, true, true, true, true, true, true};
+        boolean[] levelsShown = new boolean[100];
+        for (int i = 0; i < levelsShown.length; i++) {
+            levelsShown[i] = true;
+        }
         platforms.get(0).setLevelsShown(levelsShown);
         portal.setLevelsShown(levelsShown);
 
@@ -355,7 +358,7 @@ public class Main extends JPanel{
                     player.setvX((int) player.getvX() + 3);
                 }
             } else {
-                if (player.getvX() < 0) {
+                if (player.getvX() < 2) {
                     player.setvX((int) player.getvX() + 3);
                 }
             }

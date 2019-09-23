@@ -14,7 +14,7 @@ public class Sprite {
         this.y = y;
         this.width = width;
         this.height = height;
-        levelsShown  = new boolean[10];
+        levelsShown = new boolean[100];
         level = 0;
         color = Color.BLACK;
     }
@@ -24,7 +24,7 @@ public class Sprite {
         this.y = y;
         this.width = width;
         this.height = height;
-        levelsShown  = new boolean[10];
+        levelsShown  = new boolean[100];
         level = 0;
         color = Color.BLACK;
         levelsShown[levelShown] = true;
