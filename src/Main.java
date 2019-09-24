@@ -25,13 +25,14 @@ public class Main extends JPanel{
     ArrayList<Platform> platforms;
     ArrayList<Spring> springs;
     ArrayList<Sprite> lava;
+    ArrayList<MovingPlatform> mPlat;
     private boolean playerOnTopOfPlatform, playerIsOnEnemy, playerIsOnSpring, isWaterLevel;
 
     public Main(){
         keys = new boolean[256];
 
         setKeyListener();
-        level = 8;
+        level = 1;
         lives = 5;
         points = 0;
         framesSinceJump = 0;
@@ -42,6 +43,7 @@ public class Main extends JPanel{
         platforms = new ArrayList<>();
         springs = new ArrayList<>();
         lava = new ArrayList<>();
+        mPlat = new ArrayList<>();
         player = new Player(30, 625, 50, 50);
         portal = new Portal(1000, 1000, 75, 75);
 
@@ -86,27 +88,27 @@ public class Main extends JPanel{
         platforms.add(new Platform(800, 450, 50, 100, 3));
         platforms.add(new Platform(1000, 450, 50, 100, 3));
 
-        playerOnTopOfPlatform = false;
-        playerIsOnEnemy = false;
-        playerIsOnSpring = false;
-        isWaterLevel = false;
-
         //level 4
-        platforms.add(new Platform(140, 115, 1300, 50, 4));
-        platforms.add(new Platform(0, 245, 1300, 50, 4));
-        platforms.add(new Platform(140, 375, 1300, 50, 4));
-        platforms.add(new Platform(0, 505, 1300, 50, 4));
-        platforms.add(new Platform(140, 635, 1300, 50, 4));
+        platforms.add(new Platform(140, 115, 1300, 50, 9));
+        platforms.add(new Platform(0, 245, 1300, 50, 9));
+        platforms.add(new Platform(140, 375, 1300, 50, 9));
+        platforms.add(new Platform(0, 505, 1300, 50, 9));
+        platforms.add(new Platform(140, 635, 1300, 50, 9));
 
         //level 5
-        platforms.add(new Platform(140, 115, 1300, 50, 5));
-        platforms.add(new Platform(0, 245, 1300, 50, 5));
-        platforms.add(new Platform(140, 375, 1300, 50, 5));
-        platforms.add(new Platform(0, 505, 1300, 50, 5));
-        platforms.add(new Platform(140, 635, 1300, 50, 5));
-        enemies.add(new Enemy(70, 115, 75, 75, 30, 100, 5));
-        enemies.add(new Enemy(1400, 245, 75, 75, 215, 275, 5));
-
+        platforms.add(new Platform(0, 640, 100, 50, 5));
+        platforms.add(new Platform(215, 500, 100, 50, 5));
+        platforms.add(new Platform(430, 400, 100, 50, 5));
+        platforms.add(new Platform(645, 300, 100, 50, 5));
+        platforms.add(new Platform(860, 200, 100, 50, 5));
+        platforms.add(new Platform(1240, 115, 200, 50, 5));
+        platforms.add(new Platform(1075, 300, 100, 50, 5));
+        lava.add(new Sprite(0, 680, 1440, 30, 5));
+        //mPlat.add(new MovingPlatform(400, 400, 100, 50, 300, 500, 3, 5)); --> figure out later
+        enemies.add(new Enemy(1440 - 75, 115, 75, 75, 0,  1440 - 75, 5, 5));
+        enemies.add(new Enemy(70, 245, 75, 75, 0,  1440 - 75, 5, 5));
+        enemies.add(new Enemy(1440 - 75, 375, 75, 75, 0, 1440 - 75, 5, 5));
+        enemies.add(new Enemy(70, 505, 75, 75, 0,  1440 - 75, 5, 5));
 
         for (int i = 0; i < lava.size(); i++) {
             lava.get(i).setColor(Color.RED);
@@ -118,6 +120,11 @@ public class Main extends JPanel{
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        playerOnTopOfPlatform = false;
+        playerIsOnEnemy = false;
+        playerIsOnSpring = false;
+        isWaterLevel = false;
 
         timer = new Timer(1000 / 60, e -> update());
         timer.start();
@@ -196,6 +203,12 @@ public class Main extends JPanel{
             enemies.get(i).setLevel(level);
             enemies.get(i).move();
         }
+
+//        for(MovingPlatform move: mPlat){
+//            move.setLevel(level);
+//            move.moveVert();
+//            move.moveHoriz();
+//        }
 
         for (int i = 0; i < springs.size(); i++) {
             springs.get(i).setLevel(level);
@@ -285,6 +298,9 @@ public class Main extends JPanel{
             }
         }
 
+//        for(MovingPlatform plat : mPlat)
+//            plat.draw(g2);
+
         for(Sprite lavatory : lava) {
             lavatory.draw(g2);
         }
@@ -295,7 +311,7 @@ public class Main extends JPanel{
         g2.drawString("Lives: " + lives, 50, 75);
         g2.drawString("Score: " + points, 50, 100);
 
-        if(level == 4){ // level == 4 || any other levels
+        if(level == 9){ // level == 4 || any other levels
             isWaterLevel = true;
             portal.setX(1350);
             portal.setY(50);
