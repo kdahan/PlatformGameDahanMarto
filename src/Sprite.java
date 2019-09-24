@@ -158,4 +158,8 @@ public class Sprite {
     public void setLevelsShown(boolean[] levelsShown) {
         this.levelsShown = levelsShown;
     }
+
+    public Color getColor() {
+        return color;
+    }
 }

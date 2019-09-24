@@ -21,6 +21,7 @@ public class Main extends JPanel{
 
     Player player;
     Portal portal;
+    FirstBoss firstBoss;
     ArrayList<Enemy> enemies;
     ArrayList<Platform> platforms;
     ArrayList<Spring> springs;
@@ -32,7 +33,7 @@ public class Main extends JPanel{
         keys = new boolean[256];
 
         setKeyListener();
-        level = 5;
+        level = 1;
         lives = 5;
         points = 0;
         framesSinceJump = 0;
@@ -46,6 +47,8 @@ public class Main extends JPanel{
         mPlat = new ArrayList<>();
         player = new Player(30, 625, 50, 50);
         portal = new Portal(1000, 1000, 75, 75);
+        firstBoss = new FirstBoss(0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0);
 
         //all levels
         platforms.add(new Platform(0, 700,1920, 300)); //this is the ground, Keren. don't get rid of the ground - Keren
@@ -258,6 +261,9 @@ public class Main extends JPanel{
             }
         }
 
+        firstBoss.update();
+        firstBoss.setLevel(level);
+
         if(keys[KeyEvent.VK_UP]){
             for(Platform plat : platforms){
                 if(player.isTouchingSide(plat) && player.getX() + player.getWidth() <= plat.getX()){
@@ -344,6 +350,8 @@ public class Main extends JPanel{
             g2.setColor(new Color(60, 230, 255, 75));
             g2.fillRect(0, 0, WIDTH, HEIGHT);
         }
+        firstBoss.draw(g2);
+
 
         repaint();
 
