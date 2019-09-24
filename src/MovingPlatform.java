@@ -6,15 +6,6 @@ public class MovingPlatform extends Sprite {
     private int speed, vX, dist, levelShown, vY;
     private boolean isMovingLeft, isMovingDown, verticalMove;
 
-    public MovingPlatform(int x, int y, int width, int height, int speed, int levelShown) {
-        super(x, y, width, height);
-        this.xPos1 = xPos1;
-        this.xPos2 = xPos2;
-        this.levelShown = levelShown;
-        speed = vX;
-        dist = Math.abs(xPos1 - xPos2);
-    }
-
     public MovingPlatform(int x, int y, int width, int height, int xPos1, int xPos2, int speed, int levelShown) {
         super(x, y, width, height, levelShown);
         this.xPos1 = xPos1;
@@ -35,7 +26,7 @@ public class MovingPlatform extends Sprite {
         dist = Math.abs(yPos1 - yPos2);
     }
 
-    public void moveHoriz(){ // <-- doesn't work
+    public void moveHorizontal(){ // <-- doesn't work
         if(!verticalMove) {
             if (getX() < xPos1) {
                 isMovingLeft = false;
@@ -50,19 +41,24 @@ public class MovingPlatform extends Sprite {
         }
     }
 
-    public void moveVert(){ // <-- doesn't work
+    public void moveVertical(){ // <-- doesn't work
         if(verticalMove) {
-            if (getY() < yPos1) {
+            if (getY() < yPos1)
                 isMovingDown = false;
-            }
-            if (getY() > yPos2) {
+
+            if (getY() > yPos2)
                 isMovingDown = true;
-            }
+
             if (isMovingDown)
                 setY(getY() - vY);
+
             else
                 setY(getY() + vY);
         }
+    }
+
+    public boolean isVerticalMove() {
+        return verticalMove;
     }
 
     public void draw(Graphics2D g2){

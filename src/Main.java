@@ -32,7 +32,7 @@ public class Main extends JPanel{
         keys = new boolean[256];
 
         setKeyListener();
-        level = 1;
+        level = 5;
         lives = 5;
         points = 0;
         framesSinceJump = 0;
@@ -104,7 +104,7 @@ public class Main extends JPanel{
         platforms.add(new Platform(1240, 115, 200, 50, 5));
         platforms.add(new Platform(1075, 300, 100, 50, 5));
         lava.add(new Sprite(0, 680, 1440, 30, 5));
-        //mPlat.add(new MovingPlatform(400, 400, 100, 50, 300, 500, 3, 5)); --> figure out later
+        //mPlat.add(new MovingPlatform(400, 500, 100, 50, 300, 500, 3, 5)); //--> figure out later
         enemies.add(new Enemy(1440 - 75, 115, 75, 75, 0,  1440 - 75, 5, 5));
         enemies.add(new Enemy(70, 245, 75, 75, 0,  1440 - 75, 5, 5));
         enemies.add(new Enemy(1440 - 75, 375, 75, 75, 0, 1440 - 75, 5, 5));
@@ -153,6 +153,19 @@ public class Main extends JPanel{
                 player.setY(platforms.get(i).getY() + platforms.get(i).getHeight());
             }
         }
+
+        for(MovingPlatform mplat : mPlat) {
+            if(player.isTouchingTop(mplat)){
+                playerOnTopOfPlatform = true;
+                player.setvY(0);
+                player.setY(mplat.getY() - player.getHeight());
+            }
+            if(mplat.isTouchingTop(player)){
+                player.setvY(0);
+                player.setY(mplat.getY() + mplat.getHeight());
+            }
+        }
+
         framesSinceJump++;
         framesSinceSpring++;
         framesSinceReset++;
@@ -204,11 +217,13 @@ public class Main extends JPanel{
             enemies.get(i).move();
         }
 
-//        for(MovingPlatform move: mPlat){
-//            move.setLevel(level);
-//            move.moveVert();
-//            move.moveHoriz();
-//        }
+        for(MovingPlatform move: mPlat){
+            move.setLevel(level);
+            if(move.isVerticalMove())
+                move.moveVertical();
+            else
+                move.moveHorizontal();
+        }
 
         for (int i = 0; i < springs.size(); i++) {
             springs.get(i).setLevel(level);
@@ -298,8 +313,8 @@ public class Main extends JPanel{
             }
         }
 
-//        for(MovingPlatform plat : mPlat)
-//            plat.draw(g2);
+        for(MovingPlatform plat : mPlat)
+            plat.draw(g2);
 
         for(Sprite lavatory : lava) {
             lavatory.draw(g2);
