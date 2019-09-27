@@ -68,4 +68,6 @@ public class Enemy extends Sprite {
             setX(getX() + vX);
     }
 
+
+
 }

@@ -30,7 +30,6 @@ public class Sprite {
         levelsShown[levelShown] = true;
     }
 
-
     public boolean isTouching(Sprite other){
         if(other.isOnScreen() && isOnScreen()) {
             int otherX = other.getX();

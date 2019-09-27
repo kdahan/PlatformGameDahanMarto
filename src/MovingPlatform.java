@@ -2,17 +2,17 @@ import java.awt.*;
 
 public class MovingPlatform extends Sprite {
 
-    private int xPos1, xPos2, yPos1, yPos2;
-    private int speed, vX, dist, levelShown, vY;
+    private int xPos1, xPos2, yPos1, yPos2, vX, vY;
+//    private int speed, vX, dist, levelShown, vY;
     private boolean isMovingLeft, isMovingDown, verticalMove;
 
     public MovingPlatform(int x, int y, int width, int height, int xPos1, int xPos2, int speed, int levelShown) {
         super(x, y, width, height, levelShown);
         this.xPos1 = xPos1;
         this.xPos2 = xPos2;
-        speed = vX;
+        vX = speed;
         isMovingLeft = true;
-        dist = Math.abs(xPos1 - xPos2);
+//        dist = Math.abs(xPos1 - xPos2);
         verticalMove = false;
     }
 
@@ -20,10 +20,10 @@ public class MovingPlatform extends Sprite {
         super(x, y, width, height, levelShown);
         this.yPos1 = yPos1;
         this.yPos2 = yPos2;
-        speed = vY;
+        vY = speed;
         this.verticalMove = verticalMove;
         isMovingDown = true;
-        dist = Math.abs(yPos1 - yPos2);
+//        dist = Math.abs(yPos1 - yPos2);
     }
 
     public void moveHorizontal(){ // <-- doesn't work
@@ -65,6 +65,35 @@ public class MovingPlatform extends Sprite {
         super.draw(g2);
     }
 
-    //notes: platform draws regularly but won't move :(
+    public int getvX() {
+        return vX;
+    }
 
+    public void setvX(int vX) {
+        this.vX = vX;
+    }
+
+    public int getvY() {
+        return vY;
+    }
+
+    public void setvY(int vY) {
+        this.vY = vY;
+    }
+
+    public boolean isMovingLeft() {
+        return isMovingLeft;
+    }
+
+    public void setMovingLeft(boolean movingLeft) {
+        isMovingLeft = movingLeft;
+    }
+
+    public boolean isMovingDown() {
+        return isMovingDown;
+    }
+
+    public void setMovingDown(boolean movingDown) {
+        isMovingDown = movingDown;
+    }
 }
