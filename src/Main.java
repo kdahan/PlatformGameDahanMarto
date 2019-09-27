@@ -186,7 +186,7 @@ public class Main extends JPanel{
         lava.add(new Sprite(1125, (275 + 625) / 2, 175, 75, 10));
         lava.add(new Sprite(1125, 350, 75, 100, 10));
         lava.add(new Sprite(1225, 475, 75, 150, 10));
-        mPlat.add(new MovingPlatform(35, 550, 50, 50, 225, 575, 2, true, 10));
+        mPlat.add(new MovingPlatform(50, 550, 50, 50, 225, 575, 2, true, 10));
         mPlat.add(new MovingPlatform(150, 200, 100, 50, 125, 1300, 2, 10));
 
         //level 11 Boss Fight!
@@ -248,10 +248,12 @@ public class Main extends JPanel{
                         player.setY(patroclus.getY() - player.getHeight());
                 }
                 else
-                    if(patroclus.isMovingLeft())
+                    if(patroclus.isMovingLeft()) {
                         player.setX(player.getX() - patroclus.getvX());
-                    else
+                    }
+                    else {
                         player.setX(player.getX() + patroclus.getvX());
+                    }
             }
             if(patroclus.isTouchingTop(player)){
                 player.setvY(-player.getvY());
