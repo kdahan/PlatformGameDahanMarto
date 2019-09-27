@@ -33,8 +33,8 @@ public class Main extends JPanel{
         keys = new boolean[256];
 
         setKeyListener();
-        level = 10;
-        lives = 5;
+        level = 11;
+        lives = 50;
         points = 0;
         framesSinceJump = 0;
         framesSinceSpring = 0;
@@ -189,6 +189,10 @@ public class Main extends JPanel{
         mPlat.add(new MovingPlatform(35, 550, 50, 50, 225, 575, 2, true, 10));
         mPlat.add(new MovingPlatform(150, 200, 100, 50, 125, 1300, 2, 10));
 
+        //level 11 Boss Fight!
+        firstBoss = new FirstBoss(0, 0, 125, 125, 11, 4, 100, 1340, 0,
+                0,4, 4);
+
         for (int i = 0; i < lava.size(); i++) {
             lava.get(i).setColor(Color.RED);
         }
@@ -340,6 +344,44 @@ public class Main extends JPanel{
             }
         }
 
+        if(player.isTouchingTop(firstBoss)){
+            firstBoss.setLives(firstBoss.getLives() - 1);
+            firstBoss.move(firstBoss.getxPos1(), firstBoss.getyPos1());
+            firstBoss.setVertSpeed(firstBoss.getVertSpeed() + 4);
+            firstBoss.setHorSpeed(firstBoss.getHorSpeed() + 4);
+            if(firstBoss.getLives() == 2) {
+                for (int i = 0; i < 50; i++) {
+                    int temp1 = (int)(Math.random() * 1330) + 100;
+                    int temp2 = (int)(Math.random() * 1330) + 100;
+                    if(temp1 > temp2)
+                        enemies.add(new Enemy(105, 600, 75, 75, temp2,
+                            temp1, (int)(Math.random() * 14) + 1, 11));
+                    else
+                        enemies.add(new Enemy(105, 600, 75, 75, temp1,
+                                temp2, (int)(Math.random() * 14) + 1, 11));
+
+                }
+
+
+            }
+        }
+
+        if(player.isTouching(firstBoss) && !player.isTouchingTop(firstBoss)){
+            player.reset();
+            lives--;
+        }
+
+        if(firstBoss.getLives() == 2){
+            boolean bossLives1 = true;
+            for (int i = enemies.size()-30; i < enemies.size(); i++) {
+                if(enemies.get(i).isOnScreen()){
+                    bossLives1 = false;
+                }
+            }
+            if(bossLives1)
+                firstBoss.setLives(1);
+        }
+
         for (int i = 0; i < springs.size(); i++) {
             if(player.isTouchingTop(springs.get(i)) && framesSinceSpring > 100) {
                 playerIsOnSpring = true;
@@ -434,6 +476,9 @@ public class Main extends JPanel{
             isWaterLevel = false;
             portal.setX(1350);
             portal.setY(700 - portal.getHeight());
+        }
+        if(level == 11){
+            portal.setX(10000);
         }
 
         if(isWaterLevel){
